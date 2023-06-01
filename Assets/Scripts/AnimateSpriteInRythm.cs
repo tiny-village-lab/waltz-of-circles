@@ -5,8 +5,6 @@ using UnityEngine;
 public class AnimateSpriteInRythm : MonoBehaviour
 {
 
-    [SerializeField] private Heartbeat heartbeat;
-    private SpriteRenderer spriteRenderer;
     private Animator animator;
     
     private void TriggerIdleAnimationOnce()
@@ -17,22 +15,20 @@ public class AnimateSpriteInRythm : MonoBehaviour
 
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
 
     private void Awake()
     {
-        if (heartbeat != null) {
-            heartbeat.Tick += TriggerIdleAnimationOnce;
+        if (AudioManager.instance != null) {
+            AudioManager.instance.Beat += TriggerIdleAnimationOnce;
         }
     }
 
     private void OnDestroy()
     {
-
-        if (heartbeat != null) {
-            heartbeat.Tick -= TriggerIdleAnimationOnce;
+        if (AudioManager.instance != null) {
+            AudioManager.instance.Beat -= TriggerIdleAnimationOnce;
         }
     }
 }
