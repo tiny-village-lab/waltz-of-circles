@@ -12,6 +12,8 @@ public class AudioManager : MonoBehaviour
 
     public event Action Beat;
 
+    public event Action Bar;
+
     private int lastMusicBar = 0;
 
     private int lastMusicBeat;
@@ -78,6 +80,7 @@ public class AudioManager : MonoBehaviour
         
         if (lastMusicBar != timelineInfo.currentMusicBar) {
             lastMusicBar = timelineInfo.currentMusicBar;
+            Bar?.Invoke();
         }
 
         if (lastMusicBeat != timelineInfo.currentMusicBeat) {
