@@ -1,0 +1,14 @@
+{
+    "levels": [
+        {
+            "number": 0,
+            "enemyCountDestroyedThreshold": 8,
+            "enemyMaxInstances": 6
+        },
+        {
+            "number": 1,
+            "enemyCountDestroyedThreshold": 12,
+            "enemyMaxInstances": 8
+        }
+    ]
+}

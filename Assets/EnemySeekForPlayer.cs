@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EnemySeekForPlayer : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class EnemySeekForPlayer : MonoBehaviour
     private Rigidbody2D rb;
 
     // Target
-    public Transform player;
+    private Transform player;
 
     void Awake()
     {
@@ -21,15 +22,14 @@ public class EnemySeekForPlayer : MonoBehaviour
 
     void Destroy()
     {
-        if (AudioManager.instance != null) {
-            AudioManager.instance.Bar -= MakeAStep;
-        }
+        Unsubscribe();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = (GameObject.Find("Player")).transform;
     }
 
     // Update is called once per frame
@@ -48,5 +48,21 @@ public class EnemySeekForPlayer : MonoBehaviour
     private void MakeAStep()
     {
         rb.AddForce(transform.up * pushForce);
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("EnemyA")) {
+            GameManager.instance.OneEnemyDestroyed(gameObject.tag);
+            Unsubscribe();
+            Destroy(this.gameObject);
+        }
+    }
+
+    void Unsubscribe()
+    {
+        if (AudioManager.instance != null) {
+            AudioManager.instance.Bar -= MakeAStep;
+        }
     }
 }

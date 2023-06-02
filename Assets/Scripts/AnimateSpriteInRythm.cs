@@ -13,13 +13,10 @@ public class AnimateSpriteInRythm : MonoBehaviour
         animator.SetTrigger("TriggerWobble");
     }
 
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-
     private void Awake()
     {
+        animator = GetComponent<Animator>();
+        
         if (AudioManager.instance != null) {
             AudioManager.instance.Beat += TriggerIdleAnimationOnce;
         }

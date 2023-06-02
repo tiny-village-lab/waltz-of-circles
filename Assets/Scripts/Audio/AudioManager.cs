@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
 
     public static AudioManager instance { get; private set; }
 
+    private FMOD.Studio.EventInstance eventInstance;
+
     public event Action Beat;
 
     public event Action Bar;
@@ -92,6 +94,11 @@ public class AudioManager : MonoBehaviour
     public void PlayOneShot(EventReference eventReference, Vector3 eventPosition)
     {
         RuntimeManager.PlayOneShot(eventReference, eventPosition);
+    }
+
+    public void SetLevel(int level)
+    {
+        musicInstance.setParameterByName("Level", level);
     }
 
     [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK))]
