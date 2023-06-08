@@ -96,9 +96,17 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(eventReference, eventPosition);
     }
 
-    public void SetLevel(int level)
+    public void SetProgression(int index)
     {
-        musicInstance.setParameterByName("Level", level);
+        musicInstance.setParameterByName("Progression", index);
+    }
+
+    public void SetIntensity(int intensity) {
+        musicInstance.setParameterByName("Intensity", intensity);
+    }
+
+    public void SetGameOn(int on) {
+        musicInstance.setParameterByName("GameOn", on);
     }
 
     [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK))]
