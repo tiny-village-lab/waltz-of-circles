@@ -1,14 +1,35 @@
 {
     "levels": [
         {
-            "number": 0,
-            "enemyCountDestroyedThreshold": 8,
+            "number": 1,
+            "enemyCountDestroyedThreshold": 4,
             "enemyMaxInstances": 6
         },
         {
-            "number": 1,
+            "number": 2,
+            "enemyCountDestroyedThreshold": 12,
+            "enemyMaxInstances": 8
+        },
+        {
+            "number": 3,
+            "enemyCountDestroyedThreshold": 12,
+            "enemyMaxInstances": 8
+        },
+        {
+            "number": 4,
+            "enemyCountDestroyedThreshold": 12,
+            "enemyMaxInstances": 8
+        },
+        {
+            "number": 5,
+            "enemyCountDestroyedThreshold": 12,
+            "enemyMaxInstances": 8
+        },
+        {
+            "number": 5,
             "enemyCountDestroyedThreshold": 12,
             "enemyMaxInstances": 8
         }
+
     ]
 }

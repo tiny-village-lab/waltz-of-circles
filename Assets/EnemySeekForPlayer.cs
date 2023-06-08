@@ -6,7 +6,7 @@ using System;
 public class EnemySeekForPlayer : MonoBehaviour
 {
 
-    public float pushForce = 200.0f;
+    public float pushForce;
 
     private Rigidbody2D rb;
 
@@ -47,6 +47,10 @@ public class EnemySeekForPlayer : MonoBehaviour
 
     private void MakeAStep()
     {
+        if (GameManager.instance.GameIsOnBreak()) {
+            return;
+        }
+
         rb.AddForce(transform.up * pushForce);
     }
 

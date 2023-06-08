@@ -7,19 +7,34 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance { get ; private set; }
 
+    public event System.Action<int> OnLevelUp;
+
+    public event System.Action OnBreak;
+
+    public event System.Action OnUnbreak;
+
+    private bool gameIsOnBreak;
+
+    private float breakDuration = 3.0f;
+    private float nextTimeToUnbreak = 0.0f;
+
+    private int gameOn = 0;
+
     private float worldWidth;
     private float worldHeight;
 
     private float positionOffsetForEnemiesAtSpawn = 2;
 
     public GameObject prefabEnemyA;
+
+    private List<GameObject> activeEnemies;
+
     private int enemyCountInstances = 0;
 
     public TextAsset levelsSetupFile;
-    
 
     [System.Serializable]
-    class Level
+    public class Level
     {
         public int number = 0;
 
@@ -46,30 +61,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private Level level;
+    public Level level;
     private Levels levelsConfiguration;
 
     void Awake()
     {
         levelsConfiguration = JsonUtility.FromJson<Levels>(levelsSetupFile.text);
         level = levelsConfiguration.levels[0];    
-        AudioManager.instance.SetLevel(level.number);
+        AudioManager.instance.SetProgression(level.number);
         AudioManager.instance.Bar += AddOneToBarsCount;
         AudioManager.instance.Bar += SpawnEnemyA;
+
+        activeEnemies = new List<GameObject>();
 
         if (instance != null && instance != this) {
             Destroy(this);
             return;
         }
-        instance = this;
 
+        OnBreak += OnBreakListen;
+        OnUnbreak += OnUnbreakListen;
+
+        instance = this;
     }
 
     private void LevelUp()
     {
         level = levelsConfiguration.PickNextLevel();
         level.barsCountInCurrentLevel = 0;
-        AudioManager.instance.SetLevel(level.number);
+        activeEnemies = new List<GameObject>();
+        AudioManager.instance.SetProgression(level.number);
+        
+        OnBreak?.Invoke();
+
+        OnLevelUp?.Invoke(level.number);
     }
 
     private void AddOneToBarsCount()
@@ -94,7 +119,10 @@ public class GameManager : MonoBehaviour
                 0
             );
 
-            Object.Instantiate(prefabEnemyA, target, transform.rotation);
+            activeEnemies.Add(
+                Object.Instantiate(prefabEnemyA, target, transform.rotation)
+            );
+
             enemyCountInstances++;
         }
     }
@@ -114,5 +142,81 @@ public class GameManager : MonoBehaviour
     {
         worldHeight = Camera.main.orthographicSize * 2;
         worldWidth = Camera.main.aspect * worldHeight;
+    }
+
+    void Update()
+    {
+        if (nextTimeToUnbreak >= 0) {
+            nextTimeToUnbreak -= Time.unscaledDeltaTime;
+        }
+
+        if (nextTimeToUnbreak < 0) {
+            OnUnbreak?.Invoke();
+        }
+
+        AudioManager.instance.SetIntensity(
+            Mathf.RoundToInt(
+                //enemyCountInstances / 6 * 100
+                Intensity()
+            )
+        );
+
+        if (gameIsOnBreak && gameOn > 0) {
+            gameOn -= 1;
+        }
+
+        if (!gameIsOnBreak && gameOn < 20) {
+            gameOn += 1;
+        }
+
+        AudioManager.instance.SetGameOn(gameOn);
+    }
+
+    private float GetClosestDistanceFromEnemy()
+    {
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+
+        foreach (GameObject enemy in activeEnemies) {
+
+            if (enemy != null) {
+                Vector3 directionToTarget = enemy.transform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if(dSqrToTarget < closestDistanceSqr) {
+                    closestDistanceSqr = dSqrToTarget;
+                }
+            }
+            
+        }
+
+        return closestDistanceSqr;
+    }
+    
+    private int Intensity()
+    {
+        float shortestDistanceClamped = Mathf.Clamp(GetClosestDistanceFromEnemy(), 0, 1);
+
+        int intensity = Mathf.RoundToInt(
+            ((enemyCountInstances + level.enemyCountDestroyed) / level.enemyCountDestroyedThreshold * 100) * shortestDistanceClamped
+        );
+
+        return intensity;
+    }
+
+    private void OnBreakListen()
+    {
+        gameIsOnBreak = true;
+
+        nextTimeToUnbreak = breakDuration;
+    }
+
+    private void OnUnbreakListen()
+    {
+        gameIsOnBreak = false;
+    }
+
+    public bool GameIsOnBreak()
+    {
+        return gameIsOnBreak;
     }
 }
