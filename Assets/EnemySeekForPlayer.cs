@@ -6,17 +6,28 @@ using System;
 public class EnemySeekForPlayer : MonoBehaviour
 {
 
-    public float pushForce;
+    public float pushForce = 200.0f;
 
     private Rigidbody2D rb;
 
     // Target
     private Transform player;
 
+    public enum MoveEveryOptions {Bar, Beat};
+    public MoveEveryOptions moveEvery;
+
     void Awake()
     {
-        if (AudioManager.instance != null) {
+        if (AudioManager.instance == null) {
+            return;
+        }
+
+        if (moveEvery == MoveEveryOptions.Bar) {
             AudioManager.instance.Bar += MakeAStep;
+        }
+
+        if (moveEvery == MoveEveryOptions.Beat) {
+            AudioManager.instance.Beat += MakeAStep;
         }
     }
 
@@ -51,7 +62,10 @@ public class EnemySeekForPlayer : MonoBehaviour
             return;
         }
 
-        rb.AddForce(transform.up * pushForce);
+        if (rb != null) {
+            rb.AddForce(transform.up * pushForce);
+        }
+
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -67,6 +81,7 @@ public class EnemySeekForPlayer : MonoBehaviour
     {
         if (AudioManager.instance != null) {
             AudioManager.instance.Bar -= MakeAStep;
+            AudioManager.instance.Beat -= MakeAStep;
         }
     }
 }

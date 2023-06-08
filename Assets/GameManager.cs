@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     private float positionOffsetForEnemiesAtSpawn = 2;
 
     public GameObject prefabEnemyA;
+    public GameObject prefabEnemyB;
+    public GameObject prefabEnemyC;
 
     private List<GameObject> activeEnemies;
 
@@ -70,7 +72,8 @@ public class GameManager : MonoBehaviour
         level = levelsConfiguration.levels[0];    
         AudioManager.instance.SetProgression(level.number);
         AudioManager.instance.Bar += AddOneToBarsCount;
-        AudioManager.instance.Bar += SpawnEnemyA;
+        AudioManager.instance.Bar += SpawnEnemiesOnBar;
+        AudioManager.instance.Beat += SpawnEnemiesOnBeat;
 
         activeEnemies = new List<GameObject>();
 
@@ -102,28 +105,50 @@ public class GameManager : MonoBehaviour
         level.barsCountInCurrentLevel++;
     }
 
-    private void SpawnEnemyA()
+    private void SpawnEnemiesOnBar()
     {
-        if (level.enemyMaxInstances == enemyCountInstances) {
-            return;
+        if (level.number < 3) {
+            SpawnEnemy(prefabEnemyA);
         }
 
-        if (level.barsCountInCurrentLevel % 2 == 0) {
+        if (level.number > 2) {
+            SpawnEnemy(prefabEnemyC);
+        }
+    }
 
-            float leftOrRight = Random.value < 0.5 ? 1 : -1;
-            float topOrBottom = Random.value < 0.5 ? 1 : -1;
+    private void SpawnEnemiesOnBeat()
+    {
+        if (level.number > 1) {
+            SpawnEnemy(prefabEnemyB);
+        }
+    }
 
-            Vector3 target = new Vector3(
-                Random.Range(-worldWidth, worldWidth) * leftOrRight,
-                (Camera.main.orthographicSize + Random.Range(3, positionOffsetForEnemiesAtSpawn)) * topOrBottom, 
-                0
-            );
+    private void SpawnEnemy(GameObject prefab)
+    {
+        for (int i=0; i<2; i++) {
 
-            activeEnemies.Add(
-                Object.Instantiate(prefabEnemyA, target, transform.rotation)
-            );
+            if (level.enemyMaxInstances == enemyCountInstances) {
+                return;
+            }
 
-            enemyCountInstances++;
+            if (level.barsCountInCurrentLevel % 2 == 0) {
+
+                float leftOrRight = i % 2 == 0 ? 1 : -1;
+                float topOrBottom = Random.value < 0.5 ? 1 : -1;
+
+                Vector3 target = new Vector3(
+                    Random.Range(-worldWidth, worldWidth) * leftOrRight,
+                    (Camera.main.orthographicSize + Random.Range(3, positionOffsetForEnemiesAtSpawn)) * topOrBottom, 
+                    0
+                );
+
+                activeEnemies.Add(
+                    Object.Instantiate(prefab, target, transform.rotation)
+                );
+
+                enemyCountInstances++;
+            }
+
         }
     }
 
