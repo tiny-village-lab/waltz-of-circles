@@ -2,33 +2,52 @@
     "levels": [
         {
             "number": 1,
-            "enemyCountDestroyedThreshold": 4,
-            "enemyMaxInstances": 6
+            "enemyMaxInstances": 4,
+            "numberOfEnemiesA": 8,
+            "numberOfEnemiesB": 0,
+            "numberOfEnemiesC": 0
         },
         {
             "number": 2,
-            "enemyCountDestroyedThreshold": 12,
-            "enemyMaxInstances": 8
+            "enemyMaxInstances": 10,
+            "numberOfEnemiesA": 12,
+            "numberOfEnemiesB": 0,
+            "numberOfEnemiesC": 0
         },
         {
             "number": 3,
-            "enemyCountDestroyedThreshold": 12,
-            "enemyMaxInstances": 8
+            "enemyMaxInstances": 4,
+            "numberOfEnemiesA": 0,
+            "numberOfEnemiesB": 6,
+            "numberOfEnemiesC": 0
         },
         {
             "number": 4,
-            "enemyCountDestroyedThreshold": 12,
-            "enemyMaxInstances": 8
+            "enemyMaxInstances": 6,
+            "numberOfEnemiesA": 2,
+            "numberOfEnemiesB": 4,
+            "numberOfEnemiesC": 2
         },
         {
             "number": 5,
-            "enemyCountDestroyedThreshold": 12,
-            "enemyMaxInstances": 8
+            "enemyMaxInstances": 8,
+            "numberOfEnemiesA": 2,
+            "numberOfEnemiesB": 6,
+            "numberOfEnemiesC": 6
         },
         {
-            "number": 5,
-            "enemyCountDestroyedThreshold": 12,
-            "enemyMaxInstances": 8
+            "number": 6,
+            "enemyMaxInstances": 4,
+            "numberOfEnemiesA": 2,
+            "numberOfEnemiesB": 6,
+            "numberOfEnemiesC": 6
+        },
+        {
+            "number": 7,
+            "enemyMaxInstances": 20,
+            "numberOfEnemiesA": 12,
+            "numberOfEnemiesB": 12,
+            "numberOfEnemiesC": 12
         }
 
     ]

@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
 
     private List<GameObject> activeEnemies;
 
-    private int enemyCountInstances = 0;
-
     public TextAsset levelsSetupFile;
 
     [System.Serializable]
@@ -40,13 +38,39 @@ public class GameManager : MonoBehaviour
     {
         public int number = 0;
 
-        public int barsCountInCurrentLevel = 0 ;
-
         // Number of enemies destroyed
         public int enemyCountDestroyed = 0;
 
-        public int enemyCountDestroyedThreshold;
         public int enemyMaxInstances;
+
+
+        public int numberOfEnemiesA;
+        
+        public int numberOfEnemiesB;
+
+        public int numberOfEnemiesC;
+
+        public int numberOfEnemiesASpawned = 0;
+        public int numberOfEnemiesBSpawned = 0;
+        public int numberOfEnemiesCSpawned = 0;
+
+        public int EnemiesTotalExpected()
+        {
+            return numberOfEnemiesA
+                + numberOfEnemiesB
+                + numberOfEnemiesC;
+        }
+
+        public int EnemiesTotalSpawned()
+        {
+            return numberOfEnemiesASpawned
+                + numberOfEnemiesBSpawned
+                + numberOfEnemiesCSpawned;
+        }
+        public int EnemiesTotalAlive()
+        {
+            return EnemiesTotalSpawned() - enemyCountDestroyed;
+        }
     }
 
     [System.Serializable]
@@ -71,7 +95,6 @@ public class GameManager : MonoBehaviour
         levelsConfiguration = JsonUtility.FromJson<Levels>(levelsSetupFile.text);
         level = levelsConfiguration.levels[0];    
         AudioManager.instance.SetProgression(level.number);
-        AudioManager.instance.Bar += AddOneToBarsCount;
         AudioManager.instance.Bar += SpawnEnemiesOnBar;
         AudioManager.instance.Beat += SpawnEnemiesOnBeat;
 
@@ -91,73 +114,72 @@ public class GameManager : MonoBehaviour
     private void LevelUp()
     {
         level = levelsConfiguration.PickNextLevel();
-        level.barsCountInCurrentLevel = 0;
         activeEnemies = new List<GameObject>();
-        AudioManager.instance.SetProgression(level.number);
+        AudioManager.instance.SetProgression(level.number % 6);
         
         OnBreak?.Invoke();
 
         OnLevelUp?.Invoke(level.number);
     }
 
-    private void AddOneToBarsCount()
-    {
-        level.barsCountInCurrentLevel++;
-    }
-
     private void SpawnEnemiesOnBar()
     {
-        if (level.number < 3) {
-            SpawnEnemy(prefabEnemyA);
-        }
+        for (int i=0; i<2; i++) {
+            if (
+                level.numberOfEnemiesA > 0 
+                && level.numberOfEnemiesASpawned < level.numberOfEnemiesA
+                && level.EnemiesTotalAlive() < level.enemyMaxInstances
+            ) {
+                SpawnEnemy(prefabEnemyA);
+                level.numberOfEnemiesASpawned++;
+            }
 
-        if (level.number > 2) {
-            SpawnEnemy(prefabEnemyC);
+            if (
+                level.numberOfEnemiesC > 0 
+                && level.numberOfEnemiesCSpawned < level.numberOfEnemiesC
+                && level.EnemiesTotalAlive() < level.enemyMaxInstances
+            ) {
+                SpawnEnemy(prefabEnemyC);
+                level.numberOfEnemiesCSpawned++;
+            }
         }
     }
 
     private void SpawnEnemiesOnBeat()
     {
-        if (level.number > 1) {
-            SpawnEnemy(prefabEnemyB);
+        for (int i=0; i<2; i++) {
+            if (
+                level.numberOfEnemiesB > 0 
+                && level.numberOfEnemiesBSpawned < level.numberOfEnemiesB
+                && level.EnemiesTotalAlive() < level.enemyMaxInstances
+            ) {
+                SpawnEnemy(prefabEnemyB);
+                level.numberOfEnemiesBSpawned++;
+            }
         }
     }
 
     private void SpawnEnemy(GameObject prefab)
     {
-        for (int i=0; i<2; i++) {
+        float leftOrRight = level.EnemiesTotalSpawned() % 2 == 0 ? 1 : -1;
+        float topOrBottom = Random.value < 0.5 ? 1 : -1;
 
-            if (level.enemyMaxInstances == enemyCountInstances) {
-                return;
-            }
+        Vector3 target = new Vector3(
+            Random.Range(-worldWidth, worldWidth) * leftOrRight,
+            (Camera.main.orthographicSize + Random.Range(3, positionOffsetForEnemiesAtSpawn)) * topOrBottom, 
+            0
+        );
 
-            if (level.barsCountInCurrentLevel % 2 == 0) {
-
-                float leftOrRight = i % 2 == 0 ? 1 : -1;
-                float topOrBottom = Random.value < 0.5 ? 1 : -1;
-
-                Vector3 target = new Vector3(
-                    Random.Range(-worldWidth, worldWidth) * leftOrRight,
-                    (Camera.main.orthographicSize + Random.Range(3, positionOffsetForEnemiesAtSpawn)) * topOrBottom, 
-                    0
-                );
-
-                activeEnemies.Add(
-                    Object.Instantiate(prefab, target, transform.rotation)
-                );
-
-                enemyCountInstances++;
-            }
-
-        }
+        activeEnemies.Add(
+            Object.Instantiate(prefab, target, transform.rotation)
+        );
     }
 
     public void OneEnemyDestroyed(string tag)
     {
-        enemyCountInstances--;
         level.enemyCountDestroyed++;
 
-        if (level.enemyCountDestroyed >= level.enemyCountDestroyedThreshold) {
+        if (level.enemyCountDestroyed >= level.EnemiesTotalExpected()) {
             LevelUp();
         }
     }
@@ -222,7 +244,7 @@ public class GameManager : MonoBehaviour
         float shortestDistanceClamped = Mathf.Clamp(GetClosestDistanceFromEnemy(), 0, 1);
 
         int intensity = Mathf.RoundToInt(
-            ((enemyCountInstances + level.enemyCountDestroyed) / level.enemyCountDestroyedThreshold * 100) * shortestDistanceClamped
+            (level.EnemiesTotalSpawned() / level.EnemiesTotalExpected() * 100) * shortestDistanceClamped
         );
 
         return intensity;

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
-    private float playerSpeed = 80.0f;
+    private float playerSpeed = 2.0f;
     private PlayerInput playerInput;
     private Rigidbody2D rb;
 
@@ -14,11 +14,16 @@ public class PlayerController : MonoBehaviour
 
     private float reboundForce = 3.0f;
 
+    public HealthBar healthBar;
+
+    private int health = 5;
+
     // Start is called before the first frame update
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
+        healthBar.SetHealth(health);
     }
 
     void Update()
@@ -63,6 +68,14 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.AddForce(movement * playerSpeed);
+        rb.AddForce(movement * playerSpeed, ForceMode2D.Impulse);
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("EnemyA")) {
+            health--;
+            healthBar.SetHealth(health);
+        }
     }
 }
