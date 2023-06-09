@@ -16,7 +16,13 @@ public class PlayerController : MonoBehaviour
 
     public HealthBar healthBar;
 
-    private int health = 5;
+    private int health = 4;
+
+    private bool isUntouchable = false;
+    private float nextTimeIsTouchable = 0.0f;
+    private float untouchableDuration = 2.0f;
+
+    public AnimateSpriteInRythm animateSpriteInRythm;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +36,15 @@ public class PlayerController : MonoBehaviour
     {
         movement = playerInput.actions["Move"].ReadValue<Vector2>();
         PreventPlayerToGoOffScreen();
+
+        if (isUntouchable && nextTimeIsTouchable > 0f) {
+            nextTimeIsTouchable -= Time.deltaTime;
+        }
+
+        if (nextTimeIsTouchable <= 0) {
+            isUntouchable = false;
+            animateSpriteInRythm.IsTouchable();
+        }
     }
 
     void PreventPlayerToGoOffScreen()
@@ -73,9 +88,25 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
+        if (isUntouchable) {
+            return;
+        }
+
+        AudioManager.instance.PlayFxPlayerHit(transform.position);
+
         if (other.gameObject.CompareTag("EnemyA")) {
+
+            if (health == 0) {
+                GameManager.instance.GameOver();
+                return;
+            }
+
             health--;
             healthBar.SetHealth(health);
+            
+            isUntouchable = true;
+            nextTimeIsTouchable = untouchableDuration;
+            animateSpriteInRythm.IsUntouchable();
         }
     }
 }

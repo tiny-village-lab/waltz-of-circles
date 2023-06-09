@@ -9,6 +9,7 @@ public class TimeManager : MonoBehaviour
 
     private bool stopTime = false;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class TimeManager : MonoBehaviour
         if (stopTime) {
             timeScale = 0;
         }
+
         if (!stopTime) {
             timeScale = 1;
         }

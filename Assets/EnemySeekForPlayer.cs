@@ -58,7 +58,7 @@ public class EnemySeekForPlayer : MonoBehaviour
 
     private void MakeAStep()
     {
-        if (GameManager.instance.GameIsOnBreak()) {
+        if (GameManager.instance.GameIsOnBreak() || GameManager.instance.GameIsOver()) {
             return;
         }
 

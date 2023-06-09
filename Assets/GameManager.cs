@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance { get ; private set; }
 
     public event System.Action<int> OnLevelUp;
+    public event System.Action OnGameOver;
+    private bool gameOver = false;
 
     public event System.Action OnBreak;
 
@@ -113,13 +115,31 @@ public class GameManager : MonoBehaviour
 
     private void LevelUp()
     {
+        if (gameOver) {
+            return;
+        }
+
         level = levelsConfiguration.PickNextLevel();
         activeEnemies = new List<GameObject>();
         AudioManager.instance.SetProgression(level.number % 6);
+        AudioManager.instance.PlayFxLevelUp();
         
         OnBreak?.Invoke();
 
         OnLevelUp?.Invoke(level.number);
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        AudioManager.instance.SetProgression(9);
+        AudioManager.instance.SetIntensity(0);
+        OnGameOver?.Invoke();
+    }
+
+    public bool GameIsOver()
+    {
+        return gameOver;
     }
 
     private void SpawnEnemiesOnBar()
@@ -193,6 +213,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (gameOver) {
+            return;
+        }
+
         if (nextTimeToUnbreak >= 0) {
             nextTimeToUnbreak -= Time.unscaledDeltaTime;
         }

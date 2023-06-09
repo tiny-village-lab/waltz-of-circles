@@ -28,4 +28,14 @@ public class AnimateSpriteInRythm : MonoBehaviour
             AudioManager.instance.Beat -= TriggerIdleAnimationOnce;
         }
     }
+
+    public void IsUntouchable()
+    {
+        animator.SetBool("IsUntouchable", true);
+    }
+
+    public void IsTouchable()
+    {
+        animator.SetBool("IsUntouchable", false);
+    }
 }

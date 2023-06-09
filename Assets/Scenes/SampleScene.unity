@@ -1327,7 +1327,6 @@ GameObject:
   - component: {fileID: 1781609382}
   - component: {fileID: 1781609384}
   - component: {fileID: 1781609385}
-  - component: {fileID: 1781609386}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1416,6 +1415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1853697365}
+  animateSpriteInRythm: {fileID: 1304300310}
 --- !u!114 &1781609383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,18 +1483,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
---- !u!114 &1781609386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781609379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507eaa5ff1a1dc38d9355c82869ea64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1853697363
 GameObject:
   m_ObjectHideFlags: 0

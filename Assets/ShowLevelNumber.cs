@@ -11,11 +11,14 @@ public class ShowLevelNumber : MonoBehaviour
 
     private bool display = false;
 
+    private bool displayLock = false;
+
     // Start is called before the first frame update
     void Start()
     {
         GameManager.instance.OnBreak += DisplayLevelText;
         GameManager.instance.OnUnbreak += HideLevelText;
+        GameManager.instance.OnGameOver += DisplayGameOver;
 
         canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0;
@@ -25,6 +28,11 @@ public class ShowLevelNumber : MonoBehaviour
 
     void Update()
     {
+        if (displayLock) {
+            canvasGroup.alpha = 1.0f;
+            return;
+        }
+
         if (display && canvasGroup.alpha < 1) {
             canvasGroup.alpha += 10.0f * Time.unscaledDeltaTime;
         }
@@ -41,6 +49,16 @@ public class ShowLevelNumber : MonoBehaviour
         );
 
         display = true;
+    }
+
+    void DisplayGameOver()
+    {
+        textMeshPro.SetText(
+            string.Format("GAME OVER")
+        );
+
+        display = true;
+        displayLock = true;
     }
 
     void HideLevelText()

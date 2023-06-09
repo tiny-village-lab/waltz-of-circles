@@ -72,14 +72,8 @@ public class AudioManager : MonoBehaviour
         timelineHandle.Free();
     }
 
-    void OnGUI()
-    {
-        GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}", timelineInfo.currentMusicBar, (string)timelineInfo.lastMarker));
-    }
-
     void Update()
     {
-        
         if (lastMusicBar != timelineInfo.currentMusicBar) {
             lastMusicBar = timelineInfo.currentMusicBar;
             Bar?.Invoke();
@@ -89,6 +83,16 @@ public class AudioManager : MonoBehaviour
             lastMusicBeat = timelineInfo.currentMusicBeat;
             Beat?.Invoke();
         }
+    }
+
+    public void PlayFxPlayerHit(Vector3 eventPosition)
+    {
+        RuntimeManager.PlayOneShot("event:/FX/Hit", eventPosition);
+    }
+
+    public void PlayFxLevelUp()
+    {
+        RuntimeManager.PlayOneShot("event:/FX/Progress");
     }
 
     public void PlayOneShot(EventReference eventReference, Vector3 eventPosition)
