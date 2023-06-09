@@ -22,7 +22,12 @@ public class PlayerController : MonoBehaviour
     private float nextTimeIsTouchable = 0.0f;
     private float untouchableDuration = 2.0f;
 
+    private int nextBarsToWinAHeart = 0;
+    private int durationInBarsToWaitToWinAHeart = 6;
+
     public AnimateSpriteInRythm animateSpriteInRythm;
+
+    public NextHeartCountdown nextHeartCountdown;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +35,8 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
         healthBar.SetHealth(health);
+
+        AudioManager.instance.Bar += ControleHeartCountdown;
     }
 
     void Update()
@@ -44,6 +51,10 @@ public class PlayerController : MonoBehaviour
         if (nextTimeIsTouchable <= 0) {
             isUntouchable = false;
             animateSpriteInRythm.IsTouchable();
+        }
+
+        if (health < 4 && nextBarsToWinAHeart == 0) {
+            nextBarsToWinAHeart = durationInBarsToWaitToWinAHeart;
         }
     }
 
@@ -94,19 +105,36 @@ public class PlayerController : MonoBehaviour
 
         AudioManager.instance.PlayFxPlayerHit(transform.position);
 
-        if (other.gameObject.CompareTag("EnemyA")) {
-
-            if (health == 0) {
-                GameManager.instance.GameOver();
-                return;
-            }
-
-            health--;
-            healthBar.SetHealth(health);
-            
-            isUntouchable = true;
-            nextTimeIsTouchable = untouchableDuration;
-            animateSpriteInRythm.IsUntouchable();
+        if (other.gameObject.CompareTag("EnemyA") == false) {
+            return;
         }
+
+        if (health == 0) {
+            GameManager.instance.GameOver();
+            return;
+        }
+
+        health--;
+        healthBar.SetHealth(health);
+        
+        isUntouchable = true;
+        nextTimeIsTouchable = untouchableDuration;
+        animateSpriteInRythm.IsUntouchable();
+
+        nextBarsToWinAHeart = durationInBarsToWaitToWinAHeart;
+    }
+
+    private void ControleHeartCountdown()
+    {
+        if (nextBarsToWinAHeart > 0) {
+            nextBarsToWinAHeart--;
+
+            if (nextBarsToWinAHeart == 0) {
+                health++;
+                healthBar.SetHealth(health);
+            }
+        }
+
+        nextHeartCountdown.UpdateCountdownText(nextBarsToWinAHeart);
     }
 }

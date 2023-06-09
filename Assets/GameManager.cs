@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public event System.Action<int> OnLevelUp;
     public event System.Action OnGameOver;
+
     private bool gameOver = false;
 
     public event System.Action OnBreak;
