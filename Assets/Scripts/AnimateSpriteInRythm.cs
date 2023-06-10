@@ -38,4 +38,9 @@ public class AnimateSpriteInRythm : MonoBehaviour
     {
         animator.SetBool("IsUntouchable", false);
     }
+
+    public void SetIsDead()
+    {
+        animator.SetBool("IsDead", true);
+    }
 }

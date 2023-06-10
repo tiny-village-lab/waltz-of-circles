@@ -16,6 +16,11 @@ public class EnemySeekForPlayer : MonoBehaviour
     public enum MoveEveryOptions {Bar, Beat};
     public MoveEveryOptions moveEvery;
 
+    public AnimateSpriteInRythm animateSpriteInRythm;
+
+    public bool leaveBodyOnDeath;
+    private bool isDead = false;
+
     void Awake()
     {
         if (AudioManager.instance == null) {
@@ -46,6 +51,13 @@ public class EnemySeekForPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead) {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation
+                | RigidbodyConstraints2D.FreezePositionY
+                | RigidbodyConstraints2D.FreezePositionX;
+            return;
+        }
+
         Vector3 target = player.position - transform.position;
 
         // Look at the player
@@ -70,11 +82,20 @@ public class EnemySeekForPlayer : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("EnemyA")) {
-            GameManager.instance.OneEnemyDestroyed(gameObject.tag);
-            Unsubscribe();
-            Destroy(this.gameObject);
+        if (other.gameObject.CompareTag("EnemyA") == false) {
+            return;
         }
+
+        GameManager.instance.OneEnemyDestroyed(gameObject.tag);
+        Unsubscribe();
+
+        if (leaveBodyOnDeath) {
+            isDead = true;
+            animateSpriteInRythm.SetIsDead();
+            return;
+        }
+
+        gameObject.SetActive(false);
     }
 
     void Unsubscribe()
@@ -83,5 +104,10 @@ public class EnemySeekForPlayer : MonoBehaviour
             AudioManager.instance.Bar -= MakeAStep;
             AudioManager.instance.Beat -= MakeAStep;
         }
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 }

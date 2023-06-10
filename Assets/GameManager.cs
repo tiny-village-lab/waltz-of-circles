@@ -120,8 +120,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        level = levelsConfiguration.PickNextLevel();
+        foreach (GameObject enemy in activeEnemies) {
+            Destroy(enemy);
+        }
         activeEnemies = new List<GameObject>();
+
+        level = levelsConfiguration.PickNextLevel();
         AudioManager.instance.SetProgression(level.number % 6);
         AudioManager.instance.PlayFxLevelUp();
         

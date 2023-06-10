@@ -168,6 +168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pushForce: 400
   moveEvery: 1
+  animateSpriteInRythm: {fileID: 8215338224308732241}
+  leaveBodyOnDeath: 1
 --- !u!50 &8215338225469631963
 Rigidbody2D:
   serializedVersion: 4

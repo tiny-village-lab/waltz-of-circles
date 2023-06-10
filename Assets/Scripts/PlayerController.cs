@@ -103,9 +103,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        AudioManager.instance.PlayFxPlayerHit(transform.position);
-
         if (other.gameObject.CompareTag("EnemyA") == false) {
+            return;
+        }
+
+        if (other.gameObject.GetComponent<EnemySeekForPlayer>().IsDead()) {
             return;
         }
 
@@ -113,6 +115,8 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.GameOver();
             return;
         }
+
+        AudioManager.instance.PlayFxPlayerHit(transform.position);
 
         health--;
         healthBar.SetHealth(health);
