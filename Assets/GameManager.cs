@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class GameManager : MonoBehaviour
     private float breakDuration = 3.0f;
     private float nextTimeToUnbreak = 0.0f;
 
+    public event System.Action OnTeleportModeOn;
+    public event System.Action OnTeleportModeOff;
+    private bool isTeleportModeOn = false;
+    private int countTeleportModeOn = 0;
+
     private int gameOn = 0;
 
     private float worldWidth;
@@ -35,6 +41,10 @@ public class GameManager : MonoBehaviour
     private List<GameObject> activeEnemies;
 
     public TextAsset levelsSetupFile;
+
+    public HealthBar healthBar;
+
+    private int score = 0;
 
     [System.Serializable]
     public class Level
@@ -86,6 +96,9 @@ public class GameManager : MonoBehaviour
         public Level PickNextLevel()
         {
             levelIndex++;
+            if (levelIndex == 7) {
+                levelIndex = 1;
+            }
             return levels[levelIndex];
         }
     }
@@ -100,6 +113,7 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.SetProgression(level.number);
         AudioManager.instance.Bar += SpawnEnemiesOnBar;
         AudioManager.instance.Beat += SpawnEnemiesOnBeat;
+        AudioManager.instance.Beat += ControleTeleportModeOn;
 
         activeEnemies = new List<GameObject>();
 
@@ -203,6 +217,7 @@ public class GameManager : MonoBehaviour
     public void OneEnemyDestroyed(string tag)
     {
         level.enemyCountDestroyed++;
+        score++;
 
         if (level.enemyCountDestroyed >= level.EnemiesTotalExpected()) {
             LevelUp();
@@ -230,18 +245,15 @@ public class GameManager : MonoBehaviour
             OnUnbreak?.Invoke();
         }
 
-        AudioManager.instance.SetIntensity(
-            Mathf.RoundToInt(
-                //enemyCountInstances / 6 * 100
-                Intensity()
-            )
-        );
+        AudioManager.instance.SetIntensity(Intensity());
 
-        if (gameIsOnBreak && gameOn > 0) {
+        AudioManager.instance.SetDanger(Danger());
+
+        if ((gameIsOnBreak || isTeleportModeOn) && gameOn > 0) {
             gameOn -= 1;
         }
 
-        if (!gameIsOnBreak && gameOn < 20) {
+        if (!gameIsOnBreak && !isTeleportModeOn && gameOn < 20) {
             gameOn += 1;
         }
 
@@ -272,11 +284,20 @@ public class GameManager : MonoBehaviour
     {
         float shortestDistanceClamped = Mathf.Clamp(GetClosestDistanceFromEnemy(), 0, 1);
 
+        float progression = (level.EnemiesTotalSpawned() - level.EnemiesTotalAlive()) / (float) level.EnemiesTotalExpected() * 100;
+
         int intensity = Mathf.RoundToInt(
-            (level.EnemiesTotalSpawned() / level.EnemiesTotalExpected() * 100) * shortestDistanceClamped
+            ((progression * 70) + (Danger() * 30)) / 100.0f
         );
 
         return intensity;
+    }
+
+    private int Danger()
+    {
+        return Mathf.RoundToInt(
+            (5 - healthBar.GetHealth()) / 5.0f * 100
+        );
     }
 
     private void OnBreakListen()
@@ -294,5 +315,46 @@ public class GameManager : MonoBehaviour
     public bool GameIsOnBreak()
     {
         return gameIsOnBreak;
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    public void TeleportModeOn()
+    {
+        isTeleportModeOn = true;
+        OnTeleportModeOn?.Invoke();
+    }
+
+    public void TeleportModeOff()
+    {
+        countTeleportModeOn = 0;
+        isTeleportModeOn = false;
+        OnTeleportModeOff?.Invoke();
+    }
+
+    private void ControleTeleportModeOn()
+    {
+        if (!isTeleportModeOn) {
+            return;
+        }
+
+        countTeleportModeOn++;
+
+        if (countTeleportModeOn == 4) {
+            TeleportModeOff();
+        }
+    }
+
+    public bool IsTeleportModeOn()
+    {
+        return isTeleportModeOn;
     }
 }

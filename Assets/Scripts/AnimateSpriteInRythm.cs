@@ -6,6 +6,7 @@ public class AnimateSpriteInRythm : MonoBehaviour
 {
 
     private Animator animator;
+    public GameObject enemy;
     
     private void TriggerIdleAnimationOnce()
     {
@@ -42,5 +43,26 @@ public class AnimateSpriteInRythm : MonoBehaviour
     public void SetIsDead()
     {
         animator.SetBool("IsDead", true);
+    }
+
+    public void SetExplode()
+    {
+        animator.SetTrigger("TriggerExplode");
+        animator.SetBool("Explode", true);
+    }
+
+    public void DeActivateGameObject()
+    {
+        enemy.gameObject.SetActive(false);
+    }
+
+    public void SetIsGhost()
+    {
+        animator.SetBool("IsGhost", true);
+    }
+
+    public void SetIsNotGhost()
+    {
+        animator.SetBool("IsGhost", false);
     }
 }

@@ -17,7 +17,7 @@
         {
             "number": 3,
             "enemyMaxInstances": 4,
-            "numberOfEnemiesA": 0,
+            "numberOfEnemiesA": 4,
             "numberOfEnemiesB": 6,
             "numberOfEnemiesC": 0
         },

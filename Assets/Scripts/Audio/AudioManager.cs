@@ -95,6 +95,11 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot("event:/FX/Progress");
     }
 
+    public void PlayFxEnemyHit()
+    {
+        RuntimeManager.PlayOneShot("event:/FX/EnemyCrash");
+    }
+
     public void PlayOneShot(EventReference eventReference, Vector3 eventPosition)
     {
         RuntimeManager.PlayOneShot(eventReference, eventPosition);
@@ -106,7 +111,11 @@ public class AudioManager : MonoBehaviour
     }
 
     public void SetIntensity(int intensity) {
-        musicInstance.setParameterByName("Intensity", intensity);
+        musicInstance.setParameterByName("Intensity", intensity, true);
+    }
+
+    public void SetDanger(int danger) {
+        musicInstance.setParameterByName("Danger", danger, true);
     }
 
     public void SetGameOn(int on) {

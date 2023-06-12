@@ -21,6 +21,10 @@ public class EnemySeekForPlayer : MonoBehaviour
     public bool leaveBodyOnDeath;
     private bool isDead = false;
 
+    private bool isOffScreen = true;
+
+    private Vector3 lastRecordedPlayerPosition;
+
     void Awake()
     {
         if (AudioManager.instance == null) {
@@ -46,11 +50,14 @@ public class EnemySeekForPlayer : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         player = (GameObject.Find("Player")).transform;
+        lastRecordedPlayerPosition = player.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        CheckIsOffScreen();
+        
         if (isDead) {
             rb.constraints = RigidbodyConstraints2D.FreezeRotation
                 | RigidbodyConstraints2D.FreezePositionY
@@ -58,14 +65,14 @@ public class EnemySeekForPlayer : MonoBehaviour
             return;
         }
 
-        Vector3 target = player.position - transform.position;
+        if (GameManager.instance.IsTeleportModeOn() == false) {
+            lastRecordedPlayerPosition = player.position;
+        }
+        
+        Vector3 target = lastRecordedPlayerPosition - transform.position;
 
         // Look at the player
         transform.up = target;
-    }
-
-    void FixedUpdate()
-    {
     }
 
     private void MakeAStep()
@@ -82,20 +89,46 @@ public class EnemySeekForPlayer : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
+        if (isOffScreen) {
+            return;
+        }
+
         if (other.gameObject.CompareTag("EnemyA") == false) {
             return;
         }
 
+        AudioManager.instance.PlayFxEnemyHit();
+
         GameManager.instance.OneEnemyDestroyed(gameObject.tag);
         Unsubscribe();
 
+        isDead = true;
+
         if (leaveBodyOnDeath) {
-            isDead = true;
             animateSpriteInRythm.SetIsDead();
             return;
         }
 
-        gameObject.SetActive(false);
+        animateSpriteInRythm.SetExplode();
+    }
+
+    void CheckIsOffScreen()
+    {
+        if (isOffScreen == false) {
+            return;
+        }
+
+        // Convert the player world position to player screen position
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+
+        if (
+            screenPosition.x > 0
+            && screenPosition.x < Camera.main.pixelWidth
+            && screenPosition.y > 0
+            && screenPosition.y < Camera.main.pixelHeight
+        ) {
+            isOffScreen = false;
+        }
     }
 
     void Unsubscribe()

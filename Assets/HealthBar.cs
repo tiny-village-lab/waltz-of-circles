@@ -19,17 +19,28 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.GameIsOver()) {
+            hearts[0].SetActive(false);
+            return;
+        }
+
         for (int i=0; i<hearts.Count; i++) {
-            hearts[i].SetActive(i <= health);
+            hearts[i].SetActive(i <= health-1);
             hearts[i].GetComponent<CanvasRenderer>().SetAlpha(1f);
         }
 
-        if (health < hearts.Count-1) {
-            incomingHeart = hearts[health+1];
+        if (health < hearts.Count) {
+            incomingHeart = hearts[health];
             incomingHeart.SetActive(true);
-            incomingHeart.GetComponent<CanvasRenderer>().SetAlpha(0.4f);
+            incomingHeart.GetComponent<CanvasRenderer>().SetAlpha(0.2f);
         } else {
             incomingHeart = null;
         }
+
+    }
+
+    public int GetHealth()
+    {
+        return health;
     }
 }

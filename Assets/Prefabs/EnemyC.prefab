@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b406c9a657031478f3d983c0ad4225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 8215338225469631961}
 --- !u!1 &8215338225469631961
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +170,7 @@ MonoBehaviour:
   pushForce: 50
   moveEvery: 1
   animateSpriteInRythm: {fileID: 8215338224308732241}
-  leaveBodyOnDeath: 1
+  leaveBodyOnDeath: 0
 --- !u!50 &8215338225469631963
 Rigidbody2D:
   serializedVersion: 4

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private float playerSpeed = 2.0f;
     private PlayerInput playerInput;
     private Rigidbody2D rb;
+    private CircleCollider2D circleCollider;
 
     private Vector2 movement;
 
@@ -16,31 +17,40 @@ public class PlayerController : MonoBehaviour
 
     public HealthBar healthBar;
 
-    private int health = 4;
+    private int health = 5;
 
     private bool isUntouchable = false;
     private float nextTimeIsTouchable = 0.0f;
     private float untouchableDuration = 2.0f;
 
     private int nextBarsToWinAHeart = 0;
-    private int durationInBarsToWaitToWinAHeart = 6;
+    private int durationInBarsToWaitToWinAHeart = 10;
 
     public AnimateSpriteInRythm animateSpriteInRythm;
 
     public NextHeartCountdown nextHeartCountdown;
+
+    private bool isGhost = false;
 
     // Start is called before the first frame update
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
+        circleCollider = GetComponent<CircleCollider2D>();
         healthBar.SetHealth(health);
 
         AudioManager.instance.Bar += ControleHeartCountdown;
+        GameManager.instance.OnTeleportModeOn += StartGhost;
+        GameManager.instance.OnTeleportModeOff += StopGhost;
     }
 
     void Update()
     {
+        if (GameManager.instance.GameIsOver()) {
+            return;
+        }
+        
         movement = playerInput.actions["Move"].ReadValue<Vector2>();
         PreventPlayerToGoOffScreen();
 
@@ -92,6 +102,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void StartGhost()
+    {
+        isGhost = true;
+        circleCollider.enabled = false;
+        animateSpriteInRythm.SetIsGhost();
+    }
+
+    void StopGhost()
+    {
+        isGhost = false;
+        circleCollider.enabled = true;
+        animateSpriteInRythm.SetIsNotGhost();
+    }
+
     void FixedUpdate()
     {
         rb.AddForce(movement * playerSpeed, ForceMode2D.Impulse);
@@ -99,7 +123,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (isUntouchable) {
+        if (isUntouchable || isGhost) {
             return;
         }
 

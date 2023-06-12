@@ -22,6 +22,10 @@ public class NextHeartCountdown : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance.GameIsOver()) {
+            StopCoroutine(Blink());
+        }
+
         if (isFadingIn == false) {
             StopCoroutine(Blink());
         }
@@ -29,6 +33,11 @@ public class NextHeartCountdown : MonoBehaviour
 
     public void UpdateCountdownText(int count)
     {
+        if (GameManager.instance.GameIsOver()) {
+            canvasGroup.alpha = 0;
+            return;
+        }
+
         if (count < 1) {
             canvasGroup.alpha = 0;
         }
