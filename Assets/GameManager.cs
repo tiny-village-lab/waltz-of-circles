@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     public event System.Action OnTeleportModeOn;
     public event System.Action OnTeleportModeOff;
     private bool isTeleportModeOn = false;
-    private int countTeleportModeOn = 0;
 
     private int gameOn = 0;
 
@@ -113,7 +112,6 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.SetProgression(level.number);
         AudioManager.instance.Bar += SpawnEnemiesOnBar;
         AudioManager.instance.Beat += SpawnEnemiesOnBeat;
-        AudioManager.instance.Beat += ControleTeleportModeOn;
 
         activeEnemies = new List<GameObject>();
 
@@ -335,22 +333,8 @@ public class GameManager : MonoBehaviour
 
     public void TeleportModeOff()
     {
-        countTeleportModeOn = 0;
         isTeleportModeOn = false;
         OnTeleportModeOff?.Invoke();
-    }
-
-    private void ControleTeleportModeOn()
-    {
-        if (!isTeleportModeOn) {
-            return;
-        }
-
-        countTeleportModeOn++;
-
-        if (countTeleportModeOn == 4) {
-            TeleportModeOff();
-        }
     }
 
     public bool IsTeleportModeOn()
