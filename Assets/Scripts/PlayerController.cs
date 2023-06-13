@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
             animateSpriteInRythm.IsTouchable();
         }
 
-        if (health < 4 && nextBarsToWinAHeart == 0) {
+        if (health < 5 && nextBarsToWinAHeart == 0) {
             nextBarsToWinAHeart = durationInBarsToWaitToWinAHeart;
         }
     }
