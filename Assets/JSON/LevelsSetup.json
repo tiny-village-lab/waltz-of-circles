@@ -16,38 +16,59 @@
         },
         {
             "number": 3,
-            "enemyMaxInstances": 4,
-            "numberOfEnemiesA": 4,
-            "numberOfEnemiesB": 6,
+            "enemyMaxInstances": 6,
+            "numberOfEnemiesA": 0,
+            "numberOfEnemiesB": 12,
             "numberOfEnemiesC": 0
         },
         {
             "number": 4,
-            "enemyMaxInstances": 6,
-            "numberOfEnemiesA": 2,
-            "numberOfEnemiesB": 4,
-            "numberOfEnemiesC": 2
+            "enemyMaxInstances": 10,
+            "numberOfEnemiesA": 8,
+            "numberOfEnemiesB": 8,
+            "numberOfEnemiesC": 0
         },
         {
             "number": 5,
-            "enemyMaxInstances": 8,
-            "numberOfEnemiesA": 2,
-            "numberOfEnemiesB": 6,
-            "numberOfEnemiesC": 6
+            "enemyMaxInstances": 6,
+            "numberOfEnemiesA": 0,
+            "numberOfEnemiesB": 0,
+            "numberOfEnemiesC": 12
         },
         {
             "number": 6,
             "enemyMaxInstances": 4,
-            "numberOfEnemiesA": 2,
-            "numberOfEnemiesB": 6,
-            "numberOfEnemiesC": 6
+            "numberOfEnemiesA": 20,
+            "numberOfEnemiesB": 20,
+            "numberOfEnemiesC": 20
         },
         {
             "number": 7,
             "enemyMaxInstances": 20,
+            "numberOfEnemiesA": 24,
+            "numberOfEnemiesB": 24,
+            "numberOfEnemiesC": 24
+        },
+        {
+            "number": 8,
+            "enemyMaxInstances": 6,
             "numberOfEnemiesA": 12,
-            "numberOfEnemiesB": 12,
-            "numberOfEnemiesC": 12
+            "numberOfEnemiesB": 6,
+            "numberOfEnemiesC": 0
+        },
+        {
+            "number": 9,
+            "enemyMaxInstances": 2,
+            "numberOfEnemiesA": 6,
+            "numberOfEnemiesB": 6,
+            "numberOfEnemiesC": 2
+        },
+        {
+            "number": 10,
+            "enemyMaxInstances": 24,
+            "numberOfEnemiesA": 4,
+            "numberOfEnemiesB": 6,
+            "numberOfEnemiesC": 26
         }
 
     ]

@@ -95,9 +95,6 @@ public class GameManager : MonoBehaviour
         public Level PickNextLevel()
         {
             levelIndex++;
-            if (levelIndex == 7) {
-                levelIndex = 1;
-            }
             return levels[levelIndex];
         }
     }
@@ -128,6 +125,10 @@ public class GameManager : MonoBehaviour
 
     private void LevelUp()
     {
+        if (level.number == 10) {
+            GameOver();
+        }
+
         if (gameOver) {
             return;
         }
