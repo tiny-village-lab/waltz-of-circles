@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Manage to synchronize circles' animations to the beat
+ * 
+ * All GameObjects animators that use this script need to have 
+ * a trigger called "TriggerWobble"
+ */
 public class AnimateSpriteInRythm : MonoBehaviour
 {
 
