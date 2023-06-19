@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (other.gameObject.GetComponent<EnemySeekForPlayer>().IsDead()) {
+        if (other.gameObject.GetComponent<EnemyController>().IsDead()) {
             return;
         }
 

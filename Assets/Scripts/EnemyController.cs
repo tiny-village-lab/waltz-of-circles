@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EnemySeekForPlayer : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
 
     public float pushForce = 200.0f;
