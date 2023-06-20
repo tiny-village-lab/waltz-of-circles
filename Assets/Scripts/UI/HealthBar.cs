@@ -7,40 +7,36 @@ public class HealthBar : MonoBehaviour
 
     public List<GameObject> hearts;
 
-    private int health;
-
-    private GameObject incomingHeart;
-
-    public void SetHealth(int points)
+    // Start is called before the first frame update
+    void Start()
     {
-        health = points;
+        GameManager.instance.OnGameOver += Deactivate;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateHealthBar(int health)
     {
+
         if (GameManager.instance.GameIsOver()) {
-            hearts[0].SetActive(false);
             return;
         }
 
+        float alpha = 1.0f;
+
         for (int i=0; i<hearts.Count; i++) {
-            hearts[i].SetActive(i <= health-1);
-            hearts[i].GetComponent<CanvasRenderer>().SetAlpha(1f);
-        }
+            alpha = 1.0f;
 
-        if (health < hearts.Count) {
-            incomingHeart = hearts[health];
-            incomingHeart.SetActive(true);
-            incomingHeart.GetComponent<CanvasRenderer>().SetAlpha(0.2f);
-        } else {
-            incomingHeart = null;
+            if (health < i) {
+                alpha = 0.2f;
+            }
+            
+            hearts[i].GetComponent<CanvasRenderer>().SetAlpha(alpha);
         }
-
     }
 
-    public int GetHealth()
+    public void Deactivate()
     {
-        return health;
+        for (int i=0; i<hearts.Count; i++) {
+            hearts[i].GetComponent<CanvasRenderer>().SetAlpha(0.2f);
+        }
     }
 }

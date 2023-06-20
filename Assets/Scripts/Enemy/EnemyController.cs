@@ -65,7 +65,7 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        if (GameManager.instance.IsTeleportModeOn() == false) {
+        if (GameManager.instance.IsGhostModeOn() == false) {
             lastRecordedPlayerPosition = player.position;
         }
         

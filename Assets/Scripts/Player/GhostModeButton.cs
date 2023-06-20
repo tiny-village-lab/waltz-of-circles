@@ -4,17 +4,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Teleport : Button
+public class GhostModeButton : Button
 {
 
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
-        GameManager.instance.TeleportModeOn();
+        GameManager.instance.GhostModeOn();
     }
     public override void OnPointerUp(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
-        GameManager.instance.TeleportModeOff();
+        GameManager.instance.GhostModeOff();
     }
 }

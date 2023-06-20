@@ -14,7 +14,7 @@ public class GhostTimer : MonoBehaviour
     {
         AudioManager.instance.Beat += SubstractOneSlot;
         AudioManager.instance.Beat += AddOneSlot;
-        GameManager.instance.OnTeleportModeOn += SubstractOneSlot;
+        GameManager.instance.OnGhostModeOn += SubstractOneSlot;
     }
 
     // Update is called once per frame
@@ -29,12 +29,12 @@ public class GhostTimer : MonoBehaviour
 
     void SubstractOneSlot()
     {
-        if (! GameManager.instance.IsTeleportModeOn()) {
+        if (! GameManager.instance.IsGhostModeOn()) {
             return;
         }
 
         if (index == 0) {
-            GameManager.instance.TeleportModeOff();
+            GameManager.instance.GhostModeOff();
             return;
         }
 
@@ -43,7 +43,7 @@ public class GhostTimer : MonoBehaviour
 
     void AddOneSlot()
     {
-        if (GameManager.instance.IsTeleportModeOn()) {
+        if (GameManager.instance.IsGhostModeOn()) {
             return;
         }
 

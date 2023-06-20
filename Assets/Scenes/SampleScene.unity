@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 282727900}
   - component: {fileID: 282727901}
   m_Layer: 0
-  m_Name: TimeManager
+  m_Name: TimeScaleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,11 +440,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 282727899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6443f11080a274a1b80d1477f1f9939b, type: 3}
+  m_Script: {fileID: 11500000, guid: d5ef1fbaf8a07b8d182bdc3e6e0d08bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeScale: 1
-  stopTime: 0
 --- !u!1 &390757770
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,7 +1444,7 @@ GameObject:
   - component: {fileID: 1053252237}
   - component: {fileID: 1053252240}
   m_Layer: 6
-  m_Name: Button
+  m_Name: GhostModeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2161,7 +2159,7 @@ MonoBehaviour:
   prefabEnemyB: {fileID: 8215338225469631961, guid: 39e2a8dd3334659f6813c4d57a48b5d2, type: 3}
   prefabEnemyC: {fileID: 8215338225469631961, guid: 16787ae965494b227b17975d2e3b93ae, type: 3}
   levelsSetupFile: {fileID: 4900000, guid: 7ae265feacc775f50b30c4acd4ec0ff3, type: 3}
-  healthBar: {fileID: 1853697365}
+  playerHealth: {fileID: 1781609386}
   level:
     number: 0
     enemyCountDestroyed: 0
@@ -2461,6 +2459,7 @@ GameObject:
   - component: {fileID: 1781609382}
   - component: {fileID: 1781609384}
   - component: {fileID: 1781609385}
+  - component: {fileID: 1781609386}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2548,9 +2547,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659dc5c0b8eace80da5ed278d003e6d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 1853697365}
   animateSpriteInRythm: {fileID: 1304300310}
-  nextHeartCountdown: {fileID: 994138475}
+  playerHealth: {fileID: 1781609386}
 --- !u!114 &1781609383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2618,6 +2616,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
+--- !u!114 &1781609386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781609379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57acff7f1523c9d49a2fcdae0ef658b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1853697365}
+  nextHeartCountdown: {fileID: 994138475}
 --- !u!1 &1853697363
 GameObject:
   m_ObjectHideFlags: 0

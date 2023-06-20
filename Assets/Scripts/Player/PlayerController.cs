@@ -15,22 +15,15 @@ public class PlayerController : MonoBehaviour
 
     private float reboundForce = 3.0f;
 
-    public HealthBar healthBar;
-
-    private int health = 5;
-
     private bool isUntouchable = false;
     private float nextTimeIsTouchable = 0.0f;
     private float untouchableDuration = 2.0f;
 
-    private int nextBarsToWinAHeart = 0;
-    private int durationInBarsToWaitToWinAHeart = 10;
-
     public AnimateSpriteInRythm animateSpriteInRythm;
 
-    public NextHeartCountdown nextHeartCountdown;
-
     private bool isGhost = false;
+
+    public PlayerHealth playerHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -38,11 +31,9 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
         circleCollider = GetComponent<CircleCollider2D>();
-        healthBar.SetHealth(health);
 
-        AudioManager.instance.Bar += ControleHeartCountdown;
-        GameManager.instance.OnTeleportModeOn += StartGhost;
-        GameManager.instance.OnTeleportModeOff += StopGhost;
+        GameManager.instance.OnGhostModeOn += StartGhost;
+        GameManager.instance.OnGhostModeOff += StopGhost;
     }
 
     void Update()
@@ -61,10 +52,6 @@ public class PlayerController : MonoBehaviour
         if (nextTimeIsTouchable <= 0) {
             isUntouchable = false;
             animateSpriteInRythm.IsTouchable();
-        }
-
-        if (health < 3 && nextBarsToWinAHeart == 0) {
-            nextBarsToWinAHeart = durationInBarsToWaitToWinAHeart;
         }
     }
 
@@ -135,34 +122,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (health == 0) {
-            GameManager.instance.GameOver();
-            return;
-        }
-
         AudioManager.instance.PlayFxPlayerHit(transform.position);
 
-        health--;
-        healthBar.SetHealth(health);
+        playerHealth.MinusOneHealth();
         
         isUntouchable = true;
         nextTimeIsTouchable = untouchableDuration;
         animateSpriteInRythm.IsUntouchable();
-
-        nextBarsToWinAHeart = durationInBarsToWaitToWinAHeart;
-    }
-
-    private void ControleHeartCountdown()
-    {
-        if (nextBarsToWinAHeart > 0) {
-            nextBarsToWinAHeart--;
-
-            if (nextBarsToWinAHeart == 0) {
-                health++;
-                healthBar.SetHealth(health);
-            }
-        }
-
-        nextHeartCountdown.UpdateCountdownText(nextBarsToWinAHeart);
     }
 }

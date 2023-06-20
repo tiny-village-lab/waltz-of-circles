@@ -33,15 +33,16 @@ public class NextHeartCountdown : MonoBehaviour
 
     public void UpdateCountdownText(int count)
     {
+        if (count == 0) {
+            canvasGroup.alpha = 0;
+            return;
+        }
+
         if (GameManager.instance.GameIsOver()) {
             canvasGroup.alpha = 0;
             return;
         }
 
-        if (count < 1) {
-            canvasGroup.alpha = 0;
-        }
-        
         textMeshPro.SetText(
             string.Format("{0}", count)
         );

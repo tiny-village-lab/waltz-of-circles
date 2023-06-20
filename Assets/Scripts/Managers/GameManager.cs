@@ -22,9 +22,9 @@ public class GameManager : MonoBehaviour
     private float breakDuration = 3.0f;
     private float nextTimeToUnbreak = 0.0f;
 
-    public event System.Action OnTeleportModeOn;
-    public event System.Action OnTeleportModeOff;
-    private bool isTeleportModeOn = false;
+    public event System.Action OnGhostModeOn;
+    public event System.Action OnGhostModeOff;
+    private bool isGhostModeOn = false;
 
     private int gameOn = 0;
 
@@ -41,7 +41,8 @@ public class GameManager : MonoBehaviour
 
     public TextAsset levelsSetupFile;
 
-    public HealthBar healthBar;
+    public PlayerHealth playerHealth;
+
 
     private int score = 0;
 
@@ -248,11 +249,11 @@ public class GameManager : MonoBehaviour
 
         AudioManager.instance.SetDanger(Danger());
 
-        if ((gameIsOnBreak || isTeleportModeOn) && gameOn > 0) {
+        if ((gameIsOnBreak || isGhostModeOn) && gameOn > 0) {
             gameOn -= 1;
         }
 
-        if (!gameIsOnBreak && !isTeleportModeOn && gameOn < 20) {
+        if (!gameIsOnBreak && !isGhostModeOn && gameOn < 20) {
             gameOn += 1;
         }
 
@@ -295,7 +296,7 @@ public class GameManager : MonoBehaviour
     private int Danger()
     {
         return Mathf.RoundToInt(
-            (5 - healthBar.GetHealth()) / 5.0f * 100
+            (5 - playerHealth.GetHealth()) / 5.0f * 100
         );
     }
 
@@ -326,20 +327,20 @@ public class GameManager : MonoBehaviour
         return score;
     }
 
-    public void TeleportModeOn()
+    public void GhostModeOn()
     {
-        isTeleportModeOn = true;
-        OnTeleportModeOn?.Invoke();
+        isGhostModeOn = true;
+        OnGhostModeOn?.Invoke();
     }
 
-    public void TeleportModeOff()
+    public void GhostModeOff()
     {
-        isTeleportModeOn = false;
-        OnTeleportModeOff?.Invoke();
+        isGhostModeOn = false;
+        OnGhostModeOff?.Invoke();
     }
 
-    public bool IsTeleportModeOn()
+    public bool IsGhostModeOn()
     {
-        return isTeleportModeOn;
+        return isGhostModeOn;
     }
 }
