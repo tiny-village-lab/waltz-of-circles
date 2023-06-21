@@ -45,7 +45,7 @@ public class ShowLevelNumber : MonoBehaviour
     void DisplayLevelText()
     {
         textMeshPro.SetText(
-            string.Format("LEVEL {0}", GameManager.instance.level.number)
+            string.Format("LEVEL {0}", LevelManager.instance.GetCurrentLevel().number)
         );
 
         display = true;

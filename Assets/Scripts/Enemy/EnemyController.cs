@@ -99,7 +99,7 @@ public class EnemyController : MonoBehaviour
 
         AudioManager.instance.PlayFxEnemyHit();
 
-        GameManager.instance.OneEnemyDestroyed(gameObject.tag);
+        LevelManager.instance.OneEnemyDestroyed();
         Unsubscribe();
 
         isDead = true;

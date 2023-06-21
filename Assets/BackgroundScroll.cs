@@ -7,7 +7,7 @@ public class BackgroundScroll : MonoBehaviour
     
     private Vector3 initialPosition;
 
-    private float speed = 32.0f;
+    public float speed;
 
     // Start is called before the first frame update
     void Start()
