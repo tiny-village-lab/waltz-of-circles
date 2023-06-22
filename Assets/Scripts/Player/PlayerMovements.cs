@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovements : MonoBehaviour
 {
 
-    private float playerSpeed = 2.0f;
+    public float playerSpeed;
     
     private PlayerInput playerInput;
 

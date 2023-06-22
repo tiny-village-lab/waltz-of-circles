@@ -16,18 +16,19 @@ public class EnemyPursuitController : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    public Transform player;
+    private Transform player;
 
     public EnemyPursuitSpriteController sprite;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player").transform;
         rb = GetComponent<Rigidbody2D>();
 
-        speed = Random.Range(1.0f, 3.4f);
-        speedVariationFrequency = Random.Range(0.03f, 0.4f);
-        speedVariationAmplitude = Random.Range(1.2f, 4.0f);
+        speed = Random.Range(4.0f, 6.4f);
+        speedVariationFrequency = Random.Range(0.03f, 1.4f);
+        speedVariationAmplitude = Random.Range(1.2f, 6.0f);
 
         variableSpeed = speed;
         StartCoroutine(SpeedVariation());
@@ -68,11 +69,13 @@ public class EnemyPursuitController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.CompareTag("Player")) {
             sprite.Explode();
+
+            LevelPursuitManager.instance.OneEnemyDestroyed();
+            StopCoroutine(SpeedVariation());
         }
     }
 
     void Destroy()
     {
-        StopCoroutine(SpeedVariation());
     }
 }
