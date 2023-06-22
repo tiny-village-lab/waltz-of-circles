@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabEnemy: {fileID: 1702730011738050865, guid: a569a7c2c83c37c17b32dc732be5f245, type: 3}
+  prefabObstacle: {fileID: 1802480670166551899, guid: 08bf4946fab20d864a7bb90e5bbe5534, type: 3}
 --- !u!4 &57987307
 Transform:
   m_ObjectHideFlags: 0

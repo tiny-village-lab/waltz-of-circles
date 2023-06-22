@@ -9,7 +9,11 @@ public class LevelPursuitManager : MonoBehaviour
     
     public GameObject prefabEnemy;
 
-    private int numberOfEnemiesToSpawn = 12;
+    public GameObject prefabObstacle;
+
+    private int spawnObstacleEvery = 16;
+    private int spawnObstacleIn;
+
     private Level level;
     private Levels levelsConfiguration;
 
@@ -17,7 +21,7 @@ public class LevelPursuitManager : MonoBehaviour
     private float worldWidth;
     private float worldHeight;
 
-    private float positionOffsetForEnemiesAtSpawn = 2;
+    private float positionOffsetForEnemiesAtSpawn = 0.5f;
 
     void Awake()
     {
@@ -32,6 +36,8 @@ public class LevelPursuitManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spawnObstacleIn = spawnObstacleEvery;
+
         worldHeight = Camera.main.orthographicSize * 2;
         worldWidth = Camera.main.aspect * worldHeight;
 
@@ -40,12 +46,7 @@ public class LevelPursuitManager : MonoBehaviour
         level.enemyMaxInstances = 3;
 
         AudioManager.instance.Beat += SpawnEnemy;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        AudioManager.instance.Beat += SpawnObstacle;
     }
 
     void SpawnEnemy()
@@ -60,11 +61,11 @@ public class LevelPursuitManager : MonoBehaviour
 
         level.numberOfEnemiesASpawned++;
         level.activeEnemies.Add(
-            Object.Instantiate(prefabEnemy, SpawnPosition(), transform.rotation)
+            Object.Instantiate(prefabEnemy, EnemySpawnPosition(), transform.rotation)
         );
     }
 
-    Vector3 SpawnPosition()
+    Vector3 EnemySpawnPosition()
     {
         return new Vector3(
             -worldWidth - positionOffsetForEnemiesAtSpawn,
@@ -73,9 +74,29 @@ public class LevelPursuitManager : MonoBehaviour
         );
     }
 
+    Vector3 ObstacleSpawnPosition()
+    {
+        return new Vector3(
+            worldWidth / 2 + 0.5f,
+            Random.Range(-2.0f, 2.0f),
+            0
+        );
+    }
+
     public void OneEnemyDestroyed()
     {
         GameManager.instance.OneEnemyDestroyed();
         level.enemyCountDestroyed++;
+    }
+
+    void SpawnObstacle()
+    {
+        if (spawnObstacleIn != 0) {
+            spawnObstacleIn--;
+            return;
+        }
+
+        Object.Instantiate(prefabObstacle, ObstacleSpawnPosition(), transform.rotation);
+        spawnObstacleIn = spawnObstacleEvery;
     }
 }

@@ -75,6 +75,17 @@ public class EnemyPursuitController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D other) {
+
+        if (other.gameObject.CompareTag("Obstacle")) {
+            sprite.Explode();
+
+            LevelPursuitManager.instance.OneEnemyDestroyed();
+            StopCoroutine(SpeedVariation());
+        }
+
+    }
+
     void Destroy()
     {
     }
