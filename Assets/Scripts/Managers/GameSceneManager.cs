@@ -10,6 +10,8 @@ public class GameSceneManager : MonoBehaviour
 
     private int sceneIndex = 0;
 
+    AsyncOperation loadingOperation;
+
     void Awake()
     {
         if (!instance) {
@@ -20,7 +22,20 @@ public class GameSceneManager : MonoBehaviour
     public void LoadNextScene()
     {
         sceneIndex++;
-        SceneManager.LoadSceneAsync(sceneIndex);
-        GameManager.instance.ZoomOut();
+        loadingOperation = SceneManager.LoadSceneAsync(sceneIndex);
+    }
+
+    void Update()
+    {
+        if (loadingOperation == null) {
+            return;
+        }
+
+        if (loadingOperation.isDone) {
+            GameManager.instance.ZoomOut();
+            loadingOperation = null;
+
+            GameManager.instance.SetPursuitModeOn();
+        }
     }
 }

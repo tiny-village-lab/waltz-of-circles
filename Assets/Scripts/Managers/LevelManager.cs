@@ -107,6 +107,7 @@ public class LevelManager : MonoBehaviour
     {
         if (level.number == 1) {
             GameSceneManager.instance.LoadNextScene();
+            GameManager.instance.ZoomOut();
             return;
         }
 

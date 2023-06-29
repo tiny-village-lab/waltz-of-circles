@@ -77,7 +77,7 @@ public class LevelPursuitManager : MonoBehaviour
     Vector3 ObstacleSpawnPosition()
     {
         return new Vector3(
-            worldWidth / 2 + 0.5f,
+            worldWidth / 2 + 5.4f,
             Random.Range(-2.0f, 2.0f),
             0
         );

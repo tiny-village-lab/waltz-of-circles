@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     private bool isZooming = false;
 
+    private bool isOnPursuitMode = false;
+
     void Awake()
     {
         if (instance != null && instance != this) {
@@ -148,6 +150,16 @@ public class GameManager : MonoBehaviour
         OnLevelUp?.Invoke(levelNumber);
     }
 
+    public void SetPursuitModeOn()
+    {
+        isOnPursuitMode = true;
+    }
+
+    public bool IsOnPursuitMode()
+    {
+        return isOnPursuitMode;
+    }
+
     public void ZoomOut()
     {
         isZooming = true;
@@ -159,11 +171,11 @@ public class GameManager : MonoBehaviour
     {
         float zoom = Camera.main.orthographicSize;
 
-        while (isZooming) {
-            zoom += 0.2f;
+        while (isZooming == true) {
+            zoom += 0.02f;
             Camera.main.orthographicSize = zoom;
 
-            if (zoom == 5) {
+            if (Camera.main.orthographicSize >= 5) {
                 isZooming = false;
             }
 
