@@ -6,6 +6,9 @@ TagManager:
   tags:
   - EnemyA
   - Obstacle
+  - AudioManager
+  - Canvas
+  - GameSceneManager
   layers:
   - Default
   - TransparentFX

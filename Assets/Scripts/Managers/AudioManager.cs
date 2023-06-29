@@ -47,16 +47,21 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
+        LoadMusicInstance("event:/Music/Kicks");
+    }
+
+    private void LoadMusicInstance(string name)
+    {
         timelineInfo = new TimelineInfo();
 
         // Explicitly create the delegate object and assign it to a member so it doesn't get freed
         // by the garbage collected while it's being used
         beatCallback = new FMOD.Studio.EVENT_CALLBACK(BeatEventCallback);
-
-        musicInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Kicks");
-
         // Pin the class that will store the data modified during the callback
         timelineHandle = GCHandle.Alloc(timelineInfo, GCHandleType.Pinned);
+
+        musicInstance = FMODUnity.RuntimeManager.CreateInstance(name);
+
         // Pass the object through the userdata of the instance
         musicInstance.setUserData(GCHandle.ToIntPtr(timelineHandle));
 
@@ -64,7 +69,7 @@ public class AudioManager : MonoBehaviour
         musicInstance.start();
     }
 
-    void OnDestroy()
+    public void Stop()
     {
         musicInstance.setUserData(IntPtr.Zero);
         musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);

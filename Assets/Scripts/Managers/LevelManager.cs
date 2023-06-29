@@ -105,6 +105,11 @@ public class LevelManager : MonoBehaviour
 
     private void LevelUp()
     {
+        if (level.number == 1) {
+            GameSceneManager.instance.LoadNextScene();
+            return;
+        }
+
         if (GameManager.instance.GameIsOver()) {
             return;
         }
@@ -175,5 +180,11 @@ public class LevelManager : MonoBehaviour
         return Mathf.RoundToInt(
             (5 - playerHealth.GetHealth()) / 5.0f * 100
         );
+    }
+
+    void OnDestroy()
+    {
+        AudioManager.instance.Bar -= SpawnEnemiesOnBar;
+        AudioManager.instance.Beat -= SpawnEnemiesOnBeat;
     }
 }

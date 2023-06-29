@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
 
+    private bool isZooming = false;
+
     void Awake()
     {
         if (instance != null && instance != this) {
@@ -83,6 +85,10 @@ public class GameManager : MonoBehaviour
 
         if (!gameIsOnBreak && !isGhostModeOn && gameOn < 20) {
             gameOn += 1;
+        }
+
+        if (!isZooming) {
+            StopCoroutine(ZoomOutRoutine());
         }
 
         AudioManager.instance.SetGameOn(gameOn);
@@ -140,5 +146,28 @@ public class GameManager : MonoBehaviour
     public void EmitLevelUp(int levelNumber)
     {
         OnLevelUp?.Invoke(levelNumber);
+    }
+
+    public void ZoomOut()
+    {
+        isZooming = true;
+
+        StartCoroutine(ZoomOutRoutine());
+    }
+
+    IEnumerator ZoomOutRoutine()
+    {
+        float zoom = Camera.main.orthographicSize;
+
+        while (isZooming) {
+            zoom += 0.2f;
+            Camera.main.orthographicSize = zoom;
+
+            if (zoom == 5) {
+                isZooming = false;
+            }
+
+            yield return null;
+        }
     }
 }
