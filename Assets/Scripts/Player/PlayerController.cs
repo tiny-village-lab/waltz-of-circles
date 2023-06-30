@@ -59,15 +59,32 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (isUntouchable || isGhost) {
-            return;
-        }
-
         if (other.gameObject.CompareTag("EnemyA") == false) {
             return;
         }
 
-        if (other.gameObject.GetComponent<EnemyController>().IsDead()) {
+        // EnemyController will be null in case the game is on pursuit mode
+        EnemyController enemyController = other.gameObject.GetComponent<EnemyController>();
+
+        if (enemyController != null && enemyController.IsDead()) {
+            return;
+        }
+
+        PlayerGetsHit();
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+
+        // When gets hit during a chase
+        if (other.gameObject.CompareTag("Obstacle")) {
+            GameManager.instance.PlayerCollideAWall();
+            PlayerGetsHit();
+        }
+    }
+
+    void PlayerGetsHit()
+    {
+        if (isUntouchable || isGhost) {
             return;
         }
 
@@ -78,5 +95,6 @@ public class PlayerController : MonoBehaviour
         isUntouchable = true;
         nextTimeIsTouchable = untouchableDuration;
         animateSpriteInRythm.IsUntouchable();
+
     }
 }

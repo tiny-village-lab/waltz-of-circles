@@ -61,11 +61,16 @@ public class PlayerHealth : MonoBehaviour
     {
         health--;
         healthBar.UpdateHealthBar(health);
-        nextBarsToWinAHealthPoint = countDownDuration;
 
         if (health < 0) {
             GameManager.instance.GameOver();
         }
+
+        if (GameManager.instance.IsOnPursuitMode()) {
+            return;
+        }
+
+        nextBarsToWinAHealthPoint = countDownDuration;
     }
 
     private void PlusOneHealth()

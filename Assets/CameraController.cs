@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        GameManager.instance.OnPlayerCollideAWall += Collision;
     }
 
     // Update is called once per frame
@@ -23,5 +24,10 @@ public class CameraController : MonoBehaviour
 
             animator.SetBool("IsShaky", isShaky);
         }     
+    }
+
+    void Collision()
+    {
+        animator.SetTrigger("Collision");
     }
 }

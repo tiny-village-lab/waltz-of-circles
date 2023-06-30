@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     private bool isOnPursuitMode = false;
 
+    public event System.Action OnPlayerCollideAWall;
+
     void Awake()
     {
         if (instance != null && instance != this) {
@@ -181,5 +183,10 @@ public class GameManager : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void PlayerCollideAWall()
+    {
+        OnPlayerCollideAWall?.Invoke();
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1702730011738050869}
   m_Layer: 0
   m_Name: EnemyPursuitA
-  m_TagString: Untagged
+  m_TagString: EnemyA
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a09200ea9e5b43a29059c3a7d89af20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   sprite: {fileID: 1702730012507392286}
 --- !u!50 &1702730011738050866
 Rigidbody2D:

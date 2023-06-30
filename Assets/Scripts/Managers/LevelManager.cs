@@ -50,6 +50,11 @@ public class LevelManager : MonoBehaviour
     {
         AudioManager.instance.SetIntensity(Intensity());
         AudioManager.instance.SetDanger(Danger());
+
+        // If there is only one enemy that remains, we destroy it ourselves
+        if (level.EnemiesTotalSpawned() == level.EnemiesTotalExpected() && level.EnemiesTotalAlive() == 1) {
+            DestroyAllEnemies();    
+        }
     }
 
     private void SpawnEnemiesOnBar()
@@ -115,10 +120,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        foreach (GameObject enemy in level.activeEnemies) {
-            Destroy(enemy);
-        }
-        level.activeEnemies = new List<GameObject>();
+        DestroyAllEnemies();
 
         level = levelsConfiguration.PickNextLevel();
         AudioManager.instance.SetProgression(level.number % 6);
@@ -126,6 +128,15 @@ public class LevelManager : MonoBehaviour
         
         GameManager.instance.EmitOnBreak();
         GameManager.instance.EmitLevelUp(level.number);
+    }
+
+    private void DestroyAllEnemies()
+    {
+        foreach (GameObject enemy in level.activeEnemies) {
+            Destroy(enemy);
+        }
+
+        level.activeEnemies = new List<GameObject>();
     }
 
     public Level GetCurrentLevel()

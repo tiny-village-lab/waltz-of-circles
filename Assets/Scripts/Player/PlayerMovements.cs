@@ -14,6 +14,9 @@ public class PlayerMovements : MonoBehaviour
 
     private float reboundForce = 3.0f;
 
+    // When the play collides an obstacle in chase mode
+    private float collisionForce = 0.0f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +34,14 @@ public class PlayerMovements : MonoBehaviour
         
         movement = playerInput.actions["Move"].ReadValue<Vector2>();
         PreventPlayerToGoOffScreen();
+
+        if (collisionForce > 0f) {
+            collisionForce -= 0.2f;
+        }
+
+        collisionForce = Mathf.Clamp(collisionForce, 0.0f, 3.0f);
+
+        movement.Set(movement.x - collisionForce, movement.y);
     }
 
     void PreventPlayerToGoOffScreen()
@@ -70,5 +81,12 @@ public class PlayerMovements : MonoBehaviour
     void FixedUpdate()
     {
         rb.AddForce(movement * playerSpeed, ForceMode2D.Impulse);
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        // When gets hit during a chase
+        if (other.gameObject.CompareTag("Obstacle")) {
+            collisionForce = 3.0f;
+        }
     }
 }
