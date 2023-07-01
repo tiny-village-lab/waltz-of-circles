@@ -30,14 +30,34 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;
-        healthBar.UpdateHealthBar(health);
+        Init();
         AudioManager.instance.Bar += ControleHeartCountdown;
+        GameManager.instance.OnRestart += Init;
     }
 
+    void Init()
+    {
+        health = maxHealth;
+        healthBar.UpdateHealthBar(health);
+        nextBarsToWinAHealthPoint = 0;
+    }
+
+
+    /*
+     * If you arrived at the end of the countdown, you earn + 1 health
+     * If are not arrived at the end of the countdown, but the pursuit mode is on, you win
+     * the health point
+     */
     private void ControleHeartCountdown()
     {
         if (health == maxHealth) {
+            return;
+        }
+
+        if (GameManager.instance.IsOnPursuitMode() && nextBarsToWinAHealthPoint > 0) {
+            nextBarsToWinAHealthPoint = 0;
+            PlusOneHealth();
+            healthBar.UpdateHealthBar(health);
             return;
         }
 
