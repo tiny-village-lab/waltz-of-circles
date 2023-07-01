@@ -53,6 +53,7 @@ public class ShowLevelNumber : MonoBehaviour
 
     void DisplayGameOver()
     {
+        print("here");
         textMeshPro.SetText(
             string.Format("GAME OVER")
         );

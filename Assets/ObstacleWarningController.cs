@@ -35,4 +35,9 @@ public class ObstacleWarningController : MonoBehaviour
 
         beatsToBlink--;
     }
+
+    void OnDestroy()
+    {
+        AudioManager.instance.Beat -= TriggerBlinkAnimationOnce;
+    }
 }

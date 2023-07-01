@@ -19,10 +19,21 @@ public class GameSceneManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        GameManager.instance.OnRestart += LoadFirstScene;
+    }
+
     public void LoadNextScene()
     {
         sceneIndex++;
         loadingOperation = SceneManager.LoadSceneAsync(sceneIndex);
+    }
+
+    public void LoadFirstScene()
+    {
+        sceneIndex = 0;
+        SceneManager.LoadScene(sceneIndex);
     }
 
     void Update()

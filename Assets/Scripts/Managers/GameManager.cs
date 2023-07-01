@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public event System.Action<int> OnLevelUp;
     public event System.Action OnGameOver;
+    public event System.Action OnRestart;
 
     private bool gameOver = false;
 
@@ -117,7 +118,8 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("SampleScene");
+        gameOver = false; 
+        OnRestart?.Invoke();
     }
 
     public int GetScore()

@@ -1,4 +1,6 @@
 Assets/tags
+Assets/tags.meta
+*.swp
 .vscode/
 
 # Never ignore DLLs in the FMOD subfolder.

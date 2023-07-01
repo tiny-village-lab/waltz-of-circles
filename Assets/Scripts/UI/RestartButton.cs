@@ -16,4 +16,9 @@ public class RestartButton : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
+
+    void OnDestroy()
+    {
+        GameManager.instance.OnGameOver -= ShowButton;
+    }
 }

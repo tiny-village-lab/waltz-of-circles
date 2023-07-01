@@ -99,4 +99,10 @@ public class LevelPursuitManager : MonoBehaviour
         Object.Instantiate(prefabObstacle, ObstacleSpawnPosition(), transform.rotation);
         spawnObstacleIn = spawnObstacleEvery;
     }
+
+    void OnDestroy()
+    {
+        AudioManager.instance.Beat -= SpawnEnemy;
+        AudioManager.instance.Beat -= SpawnObstacle;
+    }
 }
