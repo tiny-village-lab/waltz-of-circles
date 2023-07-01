@@ -44,6 +44,8 @@ public class LevelManager : MonoBehaviour
 
         worldHeight = Camera.main.orthographicSize * 2;
         worldWidth = Camera.main.aspect * worldHeight;
+
+        GameManager.instance.ZoomIn();
     }
 
     void Update()
@@ -112,7 +114,6 @@ public class LevelManager : MonoBehaviour
     {
         if (level.number == 1) {
             GameSceneManager.instance.LoadNextScene();
-            GameManager.instance.ZoomOut();
             return;
         }
 

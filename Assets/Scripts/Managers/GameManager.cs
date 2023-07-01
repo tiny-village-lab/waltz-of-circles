@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
 
         if (!isZooming) {
             StopCoroutine(ZoomOutRoutine());
+            StopCoroutine(ZoomInRoutine());
         }
 
         AudioManager.instance.SetGameOn(gameOn);
@@ -116,9 +117,17 @@ public class GameManager : MonoBehaviour
         return gameIsOnBreak;
     }
 
+    void Init()
+    {
+        score = 0;
+        gameIsOnBreak = false;
+        isOnPursuitMode = false;
+        gameOver = false; 
+    }
+
     public void Restart()
     {
-        gameOver = false; 
+        Init();
         OnRestart?.Invoke();
     }
 
@@ -166,6 +175,10 @@ public class GameManager : MonoBehaviour
 
     public void ZoomOut()
     {
+        if (Camera.main.orthographicSize >= 5) {
+            return;
+        }
+
         isZooming = true;
 
         StartCoroutine(ZoomOutRoutine());
@@ -180,6 +193,33 @@ public class GameManager : MonoBehaviour
             Camera.main.orthographicSize = zoom;
 
             if (Camera.main.orthographicSize >= 5) {
+                isZooming = false;
+            }
+
+            yield return null;
+        }
+    }
+
+    public void ZoomIn()
+    {
+        if (Camera.main.orthographicSize <= 3) {
+            return;
+        }
+
+        isZooming = true;
+
+        StartCoroutine(ZoomInRoutine());
+    }
+
+    IEnumerator ZoomInRoutine()
+    {
+        float zoom = Camera.main.orthographicSize;
+
+        while (isZooming == true) {
+            zoom -= 0.02f;
+            Camera.main.orthographicSize = zoom;
+
+            if (Camera.main.orthographicSize <= 3) {
                 isZooming = false;
             }
 

@@ -47,6 +47,8 @@ public class LevelPursuitManager : MonoBehaviour
 
         AudioManager.instance.Beat += SpawnEnemy;
         AudioManager.instance.Beat += SpawnObstacle;
+
+        GameManager.instance.ZoomOut();
     }
 
     void SpawnEnemy()

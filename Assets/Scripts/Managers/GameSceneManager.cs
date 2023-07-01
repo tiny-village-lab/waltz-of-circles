@@ -43,7 +43,6 @@ public class GameSceneManager : MonoBehaviour
         }
 
         if (loadingOperation.isDone) {
-            GameManager.instance.ZoomOut();
             loadingOperation = null;
 
             GameManager.instance.SetPursuitModeOn();

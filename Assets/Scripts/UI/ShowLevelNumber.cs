@@ -19,12 +19,21 @@ public class ShowLevelNumber : MonoBehaviour
         GameManager.instance.OnBreak += DisplayLevelText;
         GameManager.instance.OnUnbreak += HideLevelText;
         GameManager.instance.OnGameOver += DisplayGameOver;
+        GameManager.instance.OnRestart += Init;
 
         canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0;
 
         textMeshPro = transform.Find("Text").GetComponent<TextMeshProUGUI>();
     }
+
+    void Init()
+    {
+        canvasGroup.alpha = 0;
+        displayLock = false;
+        HideLevelText();
+    }
+
 
     void Update()
     {
@@ -53,7 +62,6 @@ public class ShowLevelNumber : MonoBehaviour
 
     void DisplayGameOver()
     {
-        print("here");
         textMeshPro.SetText(
             string.Format("GAME OVER")
         );
