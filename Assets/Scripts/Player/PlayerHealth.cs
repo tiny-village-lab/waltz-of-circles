@@ -50,6 +50,10 @@ public class PlayerHealth : MonoBehaviour
      */
     private void ControleHeartCountdown()
     {
+        if (GameManager.instance.features.healthRegenerate == false) {
+            return;
+        }
+
         if (health == maxHealth) {
             return;
         }

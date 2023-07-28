@@ -37,12 +37,16 @@ public class GameManager : MonoBehaviour
 
     public event System.Action OnPlayerCollideAWall;
 
+    public Features features;
+
     void Awake()
     {
         if (instance != null && instance != this) {
             Destroy(this);
             return;
         }
+
+        features = new Features();
 
         OnBreak += OnBreakListen;
         OnUnbreak += OnUnbreakListen;
