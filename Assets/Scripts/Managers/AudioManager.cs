@@ -95,7 +95,7 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot("event:/FX/Hit", eventPosition);
     }
 
-    public void PlayFxLevelUp()
+    public void PlayFxWaveUp()
     {
         RuntimeManager.PlayOneShot("event:/FX/Progress");
     }

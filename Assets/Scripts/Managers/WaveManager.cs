@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class WaveManager : MonoBehaviour
 {
 
-    public static LevelManager instance;
+    public static WaveManager instance;
 
-    private Level level;
-    private Levels levelsConfiguration;
+    private Wave wave;
+    private Waves wavesConfiguration;
 
-    public TextAsset levelsSetupFile;
+    public TextAsset wavesSetupFile;
 
     private float worldWidth;
     private float worldHeight;
@@ -35,9 +35,9 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        levelsConfiguration = JsonUtility.FromJson<Levels>(levelsSetupFile.text);
-        level = levelsConfiguration.levels[0];    
-        AudioManager.instance.SetProgression(level.number);
+        wavesConfiguration = JsonUtility.FromJson<Waves>(wavesSetupFile.text);
+        wave = wavesConfiguration.waves[0];    
+        AudioManager.instance.SetProgression(wave.number);
         
         AudioManager.instance.Bar += SpawnEnemiesOnBar;
         AudioManager.instance.Beat += SpawnEnemiesOnBeat;
@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour
         AudioManager.instance.SetDanger(Danger());
 
         // If there is only one enemy that remains, we destroy it ourselves
-        if (level.EnemiesTotalSpawned() == level.EnemiesTotalExpected() && level.EnemiesTotalAlive() == 1) {
+        if (wave.EnemiesTotalSpawned() == wave.EnemiesTotalExpected() && wave.EnemiesTotalAlive() == 1) {
             DestroyAllEnemies();    
         }
     }
@@ -62,20 +62,20 @@ public class LevelManager : MonoBehaviour
     private void SpawnEnemiesOnBar()
     {
         if (
-            level.numberOfEnemiesA > 0 
-            && level.numberOfEnemiesASpawned < level.numberOfEnemiesA
-            && level.EnemiesTotalAlive() < level.enemyMaxInstances
+            wave.numberOfEnemiesA > 0 
+            && wave.numberOfEnemiesASpawned < wave.numberOfEnemiesA
+            && wave.EnemiesTotalAlive() < wave.enemyMaxInstances
         ) {
-            level.numberOfEnemiesASpawned++;
+            wave.numberOfEnemiesASpawned++;
             SpawnEnemy(prefabEnemyA);
         }
 
         if (
-            level.numberOfEnemiesC > 0 
-            && level.numberOfEnemiesCSpawned < level.numberOfEnemiesC
-            && level.EnemiesTotalAlive() < level.enemyMaxInstances
+            wave.numberOfEnemiesC > 0 
+            && wave.numberOfEnemiesCSpawned < wave.numberOfEnemiesC
+            && wave.EnemiesTotalAlive() < wave.enemyMaxInstances
         ) {
-            level.numberOfEnemiesCSpawned++;
+            wave.numberOfEnemiesCSpawned++;
             SpawnEnemy(prefabEnemyC);
         }
     }
@@ -84,11 +84,11 @@ public class LevelManager : MonoBehaviour
     {
         for (int i=0; i<2; i++) {
             if (
-                level.numberOfEnemiesB > 0 
-                && level.numberOfEnemiesBSpawned < level.numberOfEnemiesB
-                && level.EnemiesTotalAlive() < level.enemyMaxInstances
+                wave.numberOfEnemiesB > 0 
+                && wave.numberOfEnemiesBSpawned < wave.numberOfEnemiesB
+                && wave.EnemiesTotalAlive() < wave.enemyMaxInstances
             ) {
-                level.numberOfEnemiesBSpawned++;
+                wave.numberOfEnemiesBSpawned++;
                 SpawnEnemy(prefabEnemyB);
             }
         }
@@ -96,7 +96,7 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnEnemy(GameObject prefab)
     {
-        float leftOrRight = level.EnemiesTotalSpawned() % 2 == 0 ? 1 : -1;
+        float leftOrRight = wave.EnemiesTotalSpawned() % 2 == 0 ? 1 : -1;
         float topOrBottom = Random.value < 0.5 ? 1 : -1;
 
         Vector3 target = new Vector3(
@@ -105,14 +105,14 @@ public class LevelManager : MonoBehaviour
             0
         );
 
-        level.activeEnemies.Add(
+        wave.activeEnemies.Add(
             Object.Instantiate(prefab, target, transform.rotation)
         );
     }
 
-    private void LevelUp()
+    private void WaveUp()
     {
-        if (level.number == 1) {
+        if (wave.number == 1) {
             GameSceneManager.instance.LoadNextScene();
             return;
         }
@@ -123,35 +123,35 @@ public class LevelManager : MonoBehaviour
 
         DestroyAllEnemies();
 
-        level = levelsConfiguration.PickNextLevel();
-        AudioManager.instance.SetProgression(level.number % 6);
-        AudioManager.instance.PlayFxLevelUp();
+        wave = wavesConfiguration.PickNextWave();
+        AudioManager.instance.SetProgression(wave.number % 6);
+        AudioManager.instance.PlayFxWaveUp();
         
         GameManager.instance.EmitOnBreak();
-        GameManager.instance.EmitLevelUp(level.number);
+        GameManager.instance.EmitWaveUp(wave.number);
     }
 
     private void DestroyAllEnemies()
     {
-        foreach (GameObject enemy in level.activeEnemies) {
+        foreach (GameObject enemy in wave.activeEnemies) {
             Destroy(enemy);
         }
 
-        level.activeEnemies = new List<GameObject>();
+        wave.activeEnemies = new List<GameObject>();
     }
 
-    public Level GetCurrentLevel()
+    public Wave GetCurrentWave()
     {
-        return level;
+        return wave;
     }
 
     public void OneEnemyDestroyed()
     {
         GameManager.instance.OneEnemyDestroyed();
-        level.enemyCountDestroyed++;
+        wave.enemyCountDestroyed++;
 
-        if (level.enemyCountDestroyed >= level.EnemiesTotalExpected()) {
-            LevelUp();
+        if (wave.enemyCountDestroyed >= wave.EnemiesTotalExpected()) {
+            WaveUp();
         }
     }
 
@@ -160,7 +160,7 @@ public class LevelManager : MonoBehaviour
         float closestDistanceSqr = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
 
-        foreach (GameObject enemy in level.activeEnemies) {
+        foreach (GameObject enemy in wave.activeEnemies) {
 
             if (enemy != null) {
                 Vector3 directionToTarget = enemy.transform.position - currentPosition;
@@ -179,7 +179,7 @@ public class LevelManager : MonoBehaviour
     {
         float shortestDistanceClamped = Mathf.Clamp(GetClosestDistanceFromEnemy(), 0, 1);
 
-        float progression = (level.EnemiesTotalSpawned() - level.EnemiesTotalAlive()) / (float) level.EnemiesTotalExpected() * 100;
+        float progression = (wave.EnemiesTotalSpawned() - wave.EnemiesTotalAlive()) / (float) wave.EnemiesTotalExpected() * 100;
 
         int intensity = Mathf.RoundToInt(
             ((progression * 70) + (Danger() * 30)) / 100.0f

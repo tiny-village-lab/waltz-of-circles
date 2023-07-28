@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66dcd306cd4decc8b680d71a3d5be54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelsSetupFile: {fileID: 4900000, guid: 7ae265feacc775f50b30c4acd4ec0ff3, type: 3}
+  wavesSetupFile: {fileID: 4900000, guid: 7ae265feacc775f50b30c4acd4ec0ff3, type: 3}
   playerHealth: {fileID: 1781609386}
   prefabEnemyA: {fileID: 8215338225469631961, guid: 53fa632d44fe91cb28b216c6541519b6, type: 3}
   prefabEnemyB: {fileID: 8215338225469631961, guid: 39e2a8dd3334659f6813c4d57a48b5d2, type: 3}

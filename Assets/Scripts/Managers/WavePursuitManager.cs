@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelPursuitManager : MonoBehaviour
+public class WavePursuitManager : MonoBehaviour
 {
 
-    public static LevelPursuitManager instance;
+    public static WavePursuitManager instance;
     
     public GameObject prefabEnemy;
 
@@ -16,8 +16,8 @@ public class LevelPursuitManager : MonoBehaviour
     private int spawnObstacleEvery = 16;
     private int spawnObstacleIn;
 
-    private Level level;
-    private Levels levelsConfiguration;
+    private Wave wave;
+    private Waves wavesConfiguration;
 
 
     private float worldWidth;
@@ -43,9 +43,9 @@ public class LevelPursuitManager : MonoBehaviour
         worldHeight = Camera.main.orthographicSize * 2;
         worldWidth = Camera.main.aspect * worldHeight;
 
-        level = new Level();
-        level.numberOfEnemiesA = 12;
-        level.enemyMaxInstances = 3;
+        wave = new Wave();
+        wave.numberOfEnemiesA = 12;
+        wave.enemyMaxInstances = 3;
 
         AudioManager.instance.Beat += SpawnEnemy;
         AudioManager.instance.Beat += SpawnObstacle;
@@ -55,16 +55,16 @@ public class LevelPursuitManager : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if (level.EnemiesTotalSpawned() >= level.EnemiesTotalExpected()) {
+        if (wave.EnemiesTotalSpawned() >= wave.EnemiesTotalExpected()) {
             return;
         }
 
-        if (level.EnemiesTotalAlive() >= level.enemyMaxInstances) {
+        if (wave.EnemiesTotalAlive() >= wave.enemyMaxInstances) {
             return;
         }
 
-        level.numberOfEnemiesASpawned++;
-        level.activeEnemies.Add(
+        wave.numberOfEnemiesASpawned++;
+        wave.activeEnemies.Add(
             Object.Instantiate(prefabEnemy, EnemySpawnPosition(), transform.rotation)
         );
     }
@@ -90,7 +90,7 @@ public class LevelPursuitManager : MonoBehaviour
     public void OneEnemyDestroyed()
     {
         GameManager.instance.OneEnemyDestroyed();
-        level.enemyCountDestroyed++;
+        wave.enemyCountDestroyed++;
     }
 
     void SpawnObstacle()

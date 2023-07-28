@@ -70,7 +70,7 @@ public class EnemyPursuitController : MonoBehaviour
         if (other.gameObject.CompareTag("Player")) {
             sprite.Explode();
 
-            LevelPursuitManager.instance.OneEnemyDestroyed();
+            WavePursuitManager.instance.OneEnemyDestroyed();
             StopCoroutine(SpeedVariation());
         }
     }
@@ -80,7 +80,7 @@ public class EnemyPursuitController : MonoBehaviour
         if (other.gameObject.CompareTag("Obstacle")) {
             sprite.Explode();
 
-            LevelPursuitManager.instance.OneEnemyDestroyed();
+            WavePursuitManager.instance.OneEnemyDestroyed();
             StopCoroutine(SpeedVariation());
         }
 

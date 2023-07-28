@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance { get ; private set; }
 
-    public event System.Action<int> OnLevelUp;
+    public event System.Action<int> OnWaveUp;
     public event System.Action OnGameOver;
     public event System.Action OnRestart;
 
@@ -158,9 +158,9 @@ public class GameManager : MonoBehaviour
         OnBreak?.Invoke();
     }
 
-    public void EmitLevelUp(int levelNumber)
+    public void EmitWaveUp(int waveNumber)
     {
-        OnLevelUp?.Invoke(levelNumber);
+        OnWaveUp?.Invoke(waveNumber);
     }
 
     public void SetPursuitModeOn()

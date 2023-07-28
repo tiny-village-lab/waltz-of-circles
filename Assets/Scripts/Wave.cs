@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Level
+public class Wave
 {
     public int number = 0;
 
@@ -25,7 +25,7 @@ public class Level
 
     public List<GameObject> activeEnemies = new List<GameObject>();
 
-    public Level()
+    public Wave()
     {
         
     }

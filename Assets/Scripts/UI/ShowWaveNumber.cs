@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ShowLevelNumber : MonoBehaviour
+public class ShowWaveNumber : MonoBehaviour
 {
 
     private CanvasGroup canvasGroup;
@@ -16,8 +16,8 @@ public class ShowLevelNumber : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.instance.OnBreak += DisplayLevelText;
-        GameManager.instance.OnUnbreak += HideLevelText;
+        GameManager.instance.OnBreak += DisplayWaveText;
+        GameManager.instance.OnUnbreak += HideWaveText;
         GameManager.instance.OnGameOver += DisplayGameOver;
         GameManager.instance.OnRestart += Init;
 
@@ -31,7 +31,7 @@ public class ShowLevelNumber : MonoBehaviour
     {
         canvasGroup.alpha = 0;
         displayLock = false;
-        HideLevelText();
+        HideWaveText();
     }
 
 
@@ -51,10 +51,10 @@ public class ShowLevelNumber : MonoBehaviour
         }
     }
 
-    void DisplayLevelText()
+    void DisplayWaveText()
     {
         textMeshPro.SetText(
-            string.Format("LEVEL {0}", LevelManager.instance.GetCurrentLevel().number)
+            string.Format("WAVE {0}", WaveManager.instance.GetCurrentWave().number)
         );
 
         display = true;
@@ -70,7 +70,7 @@ public class ShowLevelNumber : MonoBehaviour
         displayLock = true;
     }
 
-    void HideLevelText()
+    void HideWaveText()
     {
         display = false;
     }
