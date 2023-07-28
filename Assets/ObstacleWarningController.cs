@@ -11,10 +11,18 @@ public class ObstacleWarningController : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    private CanvasGroup group;
+
+    private RectTransform rectTransform;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        group = GetComponent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
+
+        Hide();
         
         if (AudioManager.instance != null) {
             AudioManager.instance.Beat += TriggerBlinkAnimationOnce;
@@ -23,9 +31,14 @@ public class ObstacleWarningController : MonoBehaviour
     
     private void TriggerBlinkAnimationOnce()
     {
+        if (group.alpha == 0) {
+            return;
+        }
+
         if (beatsToBlink == 0) {
-            spriteRenderer.enabled = false;
-            AudioManager.instance.Beat -= TriggerBlinkAnimationOnce;
+            // spriteRenderer.enabled = false;
+            // AudioManager.instance.Beat -= TriggerBlinkAnimationOnce;
+            Hide();
         }
 
         if (beatsToBlink % 2 == 0) {
@@ -34,6 +47,28 @@ public class ObstacleWarningController : MonoBehaviour
         }
 
         beatsToBlink--;
+    }
+
+    public void Show()
+    {
+        spriteRenderer.enabled = false;
+        beatsToBlink = 7;
+        group.alpha = 1;
+    }
+
+    public void SetYPosition(float y)
+    {
+        rectTransform.localPosition = new Vector3(
+            rectTransform.localPosition.x,
+            y - 300,
+            rectTransform.localPosition.z
+        );
+    }
+
+    public void Hide()
+    {
+        group.alpha = 0;
+        spriteRenderer.enabled = false;
     }
 
     void OnDestroy()

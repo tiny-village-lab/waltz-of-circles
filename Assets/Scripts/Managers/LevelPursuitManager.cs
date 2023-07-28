@@ -11,6 +11,8 @@ public class LevelPursuitManager : MonoBehaviour
 
     public GameObject prefabObstacle;
 
+    public ObstacleWarningController obstacleWarningController;
+
     private int spawnObstacleEvery = 16;
     private int spawnObstacleIn;
 
@@ -98,7 +100,12 @@ public class LevelPursuitManager : MonoBehaviour
             return;
         }
 
-        Object.Instantiate(prefabObstacle, ObstacleSpawnPosition(), transform.rotation);
+        Vector3 obstaclePosition = ObstacleSpawnPosition();
+
+        obstacleWarningController.SetYPosition(Camera.main.WorldToScreenPoint(obstaclePosition).y); 
+        obstacleWarningController.Show();
+
+        Object.Instantiate(prefabObstacle, obstaclePosition, transform.rotation);
         spawnObstacleIn = spawnObstacleEvery;
     }
 
