@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Abilities - Waltz of circles - GDD</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="generator" content="mkdocs-1.0.4, mkdocs-gitbook-1.0.7">
+
+<link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
+<meta name="HandheldFriendly" content="true"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta rel="next" href="" />
+<link href="../../css/style.min.css" rel="stylesheet"> 
+</head>
+
+<body>
+<div class="book">
+<div class="book-summary">
+
+<nav role="navigation">
+<ul class="summary">
+<li>
+<a href="../.." target="_blank" class="custom-link">Waltz of circles - GDD</a>
+</li>
+<li class="divider"></li>
+<li class="chapter" data-path="">
+<a href="../..">Waltz of circles Game Design</a>
+<li class="header">Details</li>
+
+<li>
+<a href="../00-game-loops-and-mechanics/" class="">Game loops and mechanics</a>
+</li>
+
+<li>
+<a href="../01-survival-mode/" class="">Survival levels type</a>
+</li>
+
+<li>
+<a href="./" class="active">Abilities</a>
+</li>
+
+<li>
+<a href="../health-points/" class="">Health points</a>
+</li>
+
+<li class="header">Dictionary</li>
+
+<li>
+<a href="../../dictionary/" class="">Dictionary</a>
+</li>
+
+<li class="divider"></li>
+
+
+
+<li><a href="http://www.mkdocs.org">
+Published with MkDocs
+</a></li>
+
+<li><a href="https://github.com/GitbookIO/theme-default">
+Theme by GitBook
+</a></li>
+</ul>
+
+</nav>
+
+</div> <!-- end of book-summary -->
+
+<div class="book-body">
+<div class="body-inner">
+<div class="book-header" role="navigation">
+
+<!-- Title -->
+<h1>
+<i class="fa fa-circle-o-notch fa-spin"></i>
+<a href="." ></a>
+</h1>
+
+</div> <!-- end of book-header -->
+
+<div class="page-wrapper" tabindex="-1" role="main">
+<div class="page-inner">
+
+<section class="normal markdown-section">
+
+
+
+<h1 id="abilities">Abilities</h1>
+<p>During their progression, the players earn abilities. </p>
+<p><strong>Abilities are earned</strong> and they are permanent. If the players lose after earning an ability, they still have it.</p>
+<p><strong>Players can load only 2 abilities at a time on their device.</strong></p>
+<p>Abilities can be used in a limited amount of time. You can see this limit through the powerbar. </p>
+<h2 id="powerbar">Powerbar</h2>
+<p>The powerbar gives the timing condition on how players can use the abilities. </p>
+<p>The powerbar is composed of 4 slots. One slot is equal to duration between two beats. </p>
+<blockquote>
+<p>If your powerbar contains 3 charged slots on 4, you can use your abilities during 3 beats maximum.</p>
+<p>If your powerbar contains only empty slots, you can't use your abilities. You have to wait for at least 1 slot to recharge. </p>
+</blockquote>
+<h3 id="when-an-ability-button-is-pressed">When an ability button is pressed</h3>
+<p>If the powerbar is not empy
+* The ability is activated
+* The powerbar is emptying by 1 slot per beat</p>
+<p>If the powerbar is empty
+* Nothing happens</p>
+<h3 id="when-no-ability-button-is-pressed">When no ability button is pressed</h3>
+<ul>
+<li>There is no ability activated</li>
+<li>The powerbar is recharging by 1 slot per beat unless its already full</li>
+</ul>
+<h2 id="list-of-abilities">List of abilities</h2>
+<h3 id="ghost">Ghost</h3>
+<ul>
+<li>Player becomes transparent</li>
+<li>Player can pass through enemies</li>
+<li>When triggered, enemies keep their target at the last position when they could see the player</li>
+</ul>
+<h3 id="shield">Shield</h3>
+<ul>
+<li>Gives a pulse every beat that push back the enemies that are in a close radius</li>
+<li>Enemies are pushed in the opposite direction that they were moving</li>
+</ul>
+<h3 id="break-time">Break time</h3>
+<ul>
+<li>Stop enemies time during 1 Bar</li>
+</ul>
+<h3 id="armor">Armor</h3>
+<ul>
+<li>Protects the player against damages</li>
+</ul>
+<h3 id="armor-plus">Armor plus</h3>
+<ul>
+<li>Protects the player against damages</li>
+<li>Gives damage to collider</li>
+</ul>
+
+
+</section>
+
+</div> <!-- end of page-inner -->
+</div> <!-- end of page-wrapper -->
+
+</div> <!-- end of body-inner -->
+
+</div> <!-- end of book-body -->
+<script src="../../js/main.js"></script>
+<script src="../../js/gitbook.min.js"></script>
+<script src="../../js/theme.min.js"></script>
+</body>
+</html>

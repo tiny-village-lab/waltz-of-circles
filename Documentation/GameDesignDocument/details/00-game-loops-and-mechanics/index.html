@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Game loops and mechanics - Waltz of circles - GDD</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="generator" content="mkdocs-1.0.4, mkdocs-gitbook-1.0.7">
+
+<link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
+<meta name="HandheldFriendly" content="true"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta rel="next" href="" />
+<link href="../../css/style.min.css" rel="stylesheet"> 
+</head>
+
+<body>
+<div class="book">
+<div class="book-summary">
+
+<nav role="navigation">
+<ul class="summary">
+<li>
+<a href="../.." target="_blank" class="custom-link">Waltz of circles - GDD</a>
+</li>
+<li class="divider"></li>
+<li class="chapter" data-path="">
+<a href="../..">Waltz of circles Game Design</a>
+<li class="header">Details</li>
+
+<li>
+<a href="./" class="active">Game loops and mechanics</a>
+</li>
+
+<li>
+<a href="../01-survival-mode/" class="">Survival levels type</a>
+</li>
+
+<li>
+<a href="../abilities/" class="">Abilities</a>
+</li>
+
+<li>
+<a href="../health-points/" class="">Health points</a>
+</li>
+
+<li class="header">Dictionary</li>
+
+<li>
+<a href="../../dictionary/" class="">Dictionary</a>
+</li>
+
+<li class="divider"></li>
+
+
+
+<li><a href="http://www.mkdocs.org">
+Published with MkDocs
+</a></li>
+
+<li><a href="https://github.com/GitbookIO/theme-default">
+Theme by GitBook
+</a></li>
+</ul>
+
+</nav>
+
+</div> <!-- end of book-summary -->
+
+<div class="book-body">
+<div class="body-inner">
+<div class="book-header" role="navigation">
+
+<!-- Title -->
+<h1>
+<i class="fa fa-circle-o-notch fa-spin"></i>
+<a href="." ></a>
+</h1>
+
+</div> <!-- end of book-header -->
+
+<div class="page-wrapper" tabindex="-1" role="main">
+<div class="page-inner">
+
+<section class="normal markdown-section">
+
+
+
+<h1 id="game-loops-and-mechanics">Game loops and mechanics</h1>
+<ul>
+<li>The players win the game when they finished all the stages</li>
+<li>The players finish a stage when they get rid of all enemies of the stage</li>
+<li>The players lose when they lose all their health points during collisions</li>
+<li>Abilities help the players to go further</li>
+<li>Abilities are earned through the progression</li>
+<li>When the players lose during a stage, they restart at the saved checkpoint</li>
+<li>The saved checkpoint is the start of the last entered level</li>
+</ul>
+<h2 id="stages-progression">Stages progression</h2>
+<p>When the players lose at any point during a stage, they restart from the survival level of the current stage.</p>
+<p>If they stop the game and come back, they restart from the survival level of the last stage they entered.</p>
+<p><strong>A stage is composed of two levels in this order</strong> : a <strong>survival</strong> level type, then a <strong>chase</strong> level type.</p>
+<blockquote>
+<p>1 stage = 1 survival level + 1 chase level</p>
+</blockquote>
+<h3 id="survival-level-type">Survival level type</h3>
+<ul>
+<li>You get surrounded by <strong>successive waves</strong> of enemies</li>
+<li>The goal is to avoid to get touched by the enemies</li>
+<li>Make the enemies to collide between each others to get rid of them</li>
+</ul>
+<p><a href="./01-survival-mode">More details</a></p>
+<p><img alt="" src="../001.gif" /></p>
+<h3 id="chase-level-type">Chase level type</h3>
+<ul>
+<li>You are chased by enemies and try to escape</li>
+<li>The goal is to avoid to get touched by the enemies <strong>and obstacles</strong></li>
+<li>Make the enemies to collide on the obstacles to get rid of them</li>
+</ul>
+<p><img alt="" src="../002.gif" /></p>
+
+
+</section>
+
+</div> <!-- end of page-inner -->
+</div> <!-- end of page-wrapper -->
+
+</div> <!-- end of body-inner -->
+
+</div> <!-- end of book-body -->
+<script src="../../js/main.js"></script>
+<script src="../../js/gitbook.min.js"></script>
+<script src="../../js/theme.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Waltz of circles Game Design - Waltz of circles - GDD</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="generator" content="mkdocs-1.0.4, mkdocs-gitbook-1.0.7">
+
+<link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+<meta name="HandheldFriendly" content="true"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta rel="next" href="" />
+<link href="./css/style.min.css" rel="stylesheet"> 
+</head>
+
+<body>
+<div class="book">
+<div class="book-summary">
+
+<nav role="navigation">
+<ul class="summary">
+<li>
+<a href="." target="_blank" class="custom-link">Waltz of circles - GDD</a>
+</li>
+<li class="divider"></li>
+<li class="chapter active" data-path="">
+<a href=".">Waltz of circles Game Design</a>
+<li class="header">Details</li>
+
+<li>
+<a href="details/00-game-loops-and-mechanics/" class="">Game loops and mechanics</a>
+</li>
+
+<li>
+<a href="details/01-survival-mode/" class="">Survival levels type</a>
+</li>
+
+<li>
+<a href="details/abilities/" class="">Abilities</a>
+</li>
+
+<li>
+<a href="details/health-points/" class="">Health points</a>
+</li>
+
+<li class="header">Dictionary</li>
+
+<li>
+<a href="dictionary/" class="">Dictionary</a>
+</li>
+
+<li class="divider"></li>
+
+
+
+<li><a href="http://www.mkdocs.org">
+Published with MkDocs
+</a></li>
+
+<li><a href="https://github.com/GitbookIO/theme-default">
+Theme by GitBook
+</a></li>
+</ul>
+
+</nav>
+
+</div> <!-- end of book-summary -->
+
+<div class="book-body">
+<div class="body-inner">
+<div class="book-header" role="navigation">
+
+<!-- Title -->
+<h1>
+<i class="fa fa-circle-o-notch fa-spin"></i>
+<a href="." ></a>
+</h1>
+
+</div> <!-- end of book-header -->
+
+<div class="page-wrapper" tabindex="-1" role="main">
+<div class="page-inner">
+
+<section class="normal markdown-section">
+
+
+
+<h1 id="waltz-of-circles-game-design">Waltz of circles Game Design</h1>
+<h2 id="summary">Summary</h2>
+<p><img alt="" src="L6Vm1+.png" /></p>
+<p><strong>Survive your enemies and make them collide into each others in this intense mobile game.</strong></p>
+<p>You are the last device that is not controlled by a corrupted AI. You have no weapons, but you will get some abilities to help you to sneak between enemies and to cheat them. Survive to hordes of controlled devices, make them to crash during intensive chases. </p>
+<p>Tied to the soundtrack, enemies move by the rhythm of the music. 
+Combining a minimalist visual style and a supercharged soundtrack, players need to focus on their reactivity. </p>
+<h2 id="design-pillars">Design pillars</h2>
+<h3 id="losing-is-part-of-the-progression">Losing is part of the progression</h3>
+<p>The player won't get that far without special abilities. So, losing and earning experience points is part of the process to gain abilities that will help you to go further. </p>
+<h3 id="adding-some-generative-details">Adding some generative details</h3>
+<p>The position of the enemies is randomly generated, so when you restart a level, the players don't feel it is repetitive. </p>
+<h3 id="immersive">Immersive</h3>
+<p>The game is tied to the soundtrack. It's not a musical game, but you better have a sense of rhythm to anticipate the enemies' movements. </p>
+<h3 id="minimalist-and-harsh">Minimalist and harsh</h3>
+<p>To contribute to the oppressive ambiance, the visuals made of black and white colors look harsh and minimalist. </p>
+<h2 id="game-loops">Game loops</h2>
+<p>The main goal is to finish all the levels. At every new level, the players have hard time to go further. It is part of the game. </p>
+<p>Every time they lose the game, they earn XP. At some stages, the players win an ability that they can use to upgrade their device. They can't mount all abilities, they have to chose. </p>
+<p>The players don't restart from the whole begin, there are checkpoints. When the players passed a checkpoint, they restart from this last checkpoint. </p>
+<p><a href="details/00-game-loops-and-mechanics/">More details about game loops and mechanics</a></p>
+
+
+</section>
+
+</div> <!-- end of page-inner -->
+</div> <!-- end of page-wrapper -->
+
+</div> <!-- end of body-inner -->
+
+</div> <!-- end of book-body -->
+<script src="./js/main.js"></script>
+<script src="./js/gitbook.min.js"></script>
+<script src="./js/theme.min.js"></script>
+</body>
+</html>
