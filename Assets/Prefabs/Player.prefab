@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3994899034574420094}
   - component: {fileID: 3994899034574420093}
   - component: {fileID: 3994899034574420092}
+  - component: {fileID: 1133397749385622872}
   - component: {fileID: 208112231107010131}
   m_Layer: 0
   m_Name: Player
@@ -136,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animateSpriteInRythm: {fileID: 3994899035068874945}
   playerHealth: {fileID: 3994899034574420093}
+  playerExperience: {fileID: 1133397749385622872}
 --- !u!50 &3994899034574420095
 Rigidbody2D:
   serializedVersion: 4
@@ -200,6 +202,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 0
+--- !u!114 &1133397749385622872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994899034574420084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bbc3a167857bad6b84120572f8bc130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &208112231107010131
 MonoBehaviour:
   m_ObjectHideFlags: 0
